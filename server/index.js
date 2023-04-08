@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+var bcrypt = require('bcrypt');
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -13,6 +14,23 @@ const { User } = require("./models/UserModel");
 
 app.get("/api/", async (req, res) => {
   return res.json({ msg: "hello crowdContract user" });
+});
+
+app.post("/api/users/login", async (req, res) => {
+  const name = req.body["name"];
+  const cryptPassword = req.body["password"];
+
+  await User.findOne({name: name}).exec().then((user) => {
+    if(user === null) return res.status(401).json({msg:"user not found"});
+    if(name === user.name){
+      console.log("user",user);
+      //implement jwt
+      if(cryptPassword === user.password) return res.json({jwt:"jwt"});
+    }
+    return res.status(401).json({msg: "invalid username or password"})
+  });
+
+
 });
 
 app.get("/api/users", async (req, res) => {
