@@ -7,10 +7,37 @@ on:
 #     paths:
 #       - 'client/**'
 jobs:
+  build-frontend:
+    name: build dist for nginx container
+    runs-on: ubuntu-latest
+    stratergy:
+      matrix:
+        node-version:
+          - 10.x
+          - 12.x
+          - 14.x
+          - 15.x
+    steps:
+      - name: Checkout code [Clone code]
+        uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: | 
+          npm install
+          npm run build
+      - name: Archive /dist as artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
+
   build-and-push-docker-image:
     name: 'Build frontend image and push to dockerhub'
     # test stage should be complete before this
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout code [Clone code]
         uses: actions/checkout@v3
