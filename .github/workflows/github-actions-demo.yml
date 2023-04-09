@@ -27,6 +27,7 @@ jobs:
 
   build-and-push-docker-image:
     name: 'Build frontend image and push to dockerhub'
+    needs: build-frontend
     # test stage should be complete before this
     runs-on: ubuntu-latest
     
