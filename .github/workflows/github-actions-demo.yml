@@ -1,17 +1,21 @@
 name: GitHub Actions for crowdContract
 run-name: ${{ github.actor }} has started using GitHub Actions 🚀
+
 on:
   push:
     branches:
       - main
-#     paths:
-#       - 'client/**'
+    paths:
+      - 'client/**'
+
 jobs:
   build-frontend-push-img-to-Dockerhub:
     name: build dist for nginx container
     runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v3
+      
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -37,9 +41,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/download-artifact@v3
+      
+      - name: copy dist to . from Artifacts
+        uses: actions/download-artifact@v3
         with:
           name: dist
+      
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
         with:
