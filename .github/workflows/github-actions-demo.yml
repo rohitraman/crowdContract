@@ -7,7 +7,7 @@ on:
 #     paths:
 #       - 'client/**'
 jobs:
-  build-frontend:
+  build-frontend-push-img-to-Dockerhub:
     name: build dist for nginx container
     runs-on: ubuntu-latest
     steps:
@@ -15,26 +15,22 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+      - name: build frontend  
       - run: |
           cd client
           npm install
           npm run build
-      - name: Archive /dist as artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: dist
-          path: client/dist
-
-  build-and-push-docker-image:
-    name: 'Build frontend image and push to dockerhub'
-    needs: build-frontend
-    # test stage should be complete before this
-    runs-on: ubuntu-latest
+          mv dist ../
+          
+#     - name: Archive /dist as artifacts
+#       uses: actions/upload-artifact@v3
+#       with:
+#         name: dist
+#         path: client/dist
     
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: dist
+#     - uses: actions/download-artifact@v2
+#       with:
+#         name: dist
       
       - name: Set up Docker Buildx
         id: buildx
@@ -50,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           # relative path to the place where source code with Dockerfile is located
-          context: .
+          context: client/
           # Note: tags has to be all lower-case
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/crowdcontract-frontend:latest
           # build on feature branches, push only on main branch
