@@ -23,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dist
-          path: dist
+          path: client/dist
 
   build-and-push-docker-image:
     name: 'Build frontend image and push to dockerhub'
