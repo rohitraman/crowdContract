@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'client/**'
+#     paths:
+#       - 'client/**'
 jobs:
   build-and-push-docker-image:
     name: 'Build frontend image and push to dockerhub'
