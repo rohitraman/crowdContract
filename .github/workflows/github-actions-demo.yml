@@ -15,8 +15,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm install
-      - run: npm run build
+      - run: |
+          cd client
+          npm install
+          npm run build
       - name: Archive /dist as artifacts
         uses: actions/upload-artifact@v3
         with:
