@@ -21,17 +21,12 @@ jobs:
           cd client
           npm install
           npm run build
-          mv dist ../
           
-#     - name: Archive /dist as artifacts
-#       uses: actions/upload-artifact@v3
-#       with:
-#         name: dist
-#         path: client/dist
-    
-#     - uses: actions/download-artifact@v2
-#       with:
-#         name: dist
+      - name: Archive /dist as artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: client/dist
       
       - name: Set up Docker Buildx
         id: buildx
@@ -42,7 +37,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
         with:
