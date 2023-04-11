@@ -40,6 +40,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
+      
+      - uses: uraimo/run-on-arch-action@v2
+        name: set platform to linux
+        id: settolinux
+        with:
+          arch: armv7
+          distro: ubuntu18.04
         
       - uses: docker/build-push-action@v2
         with:
