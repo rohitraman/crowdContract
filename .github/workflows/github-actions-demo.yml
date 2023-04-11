@@ -24,6 +24,10 @@ jobs:
         with:
           name: dist
           path: client/dist
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
@@ -36,13 +40,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-      - uses: uraimo/run-on-arch-action@v2
-        name: set platform to linux and Build image and push to Docker Hub and GitHub
-          Container Registry
-        id: settolinux
-        with:
-          arch: armv7
-          distro: ubuntu18.04
+        
       - uses: docker/build-push-action@v2
         with:
           context: client/
