@@ -1,77 +1,52 @@
+---
 name: GitHub Actions for crowdContract
 run-name: ${{ github.actor }} has started using GitHub Actions 🚀
-
 on:
   push:
     branches:
       - main
-    # paths:
-    #   - 'client/**'
-
 jobs:
   build-frontend-push-img-to-Dockerhub:
     name: build dist for nginx container
     runs-on: ubuntu-latest
-    
     steps:
       - uses: actions/checkout@v3
-      - run: ls -a
-      
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          
-      - name: build frontend  
+      - name: build frontend
         run: |
           cd client
           npm install
           npm run build
-          
       - name: Archive /dist as artifacts
         uses: actions/upload-artifact@v3
         with:
           name: dist
           path: client/dist
-      
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
-
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
       - name: copy dist to . from Artifacts
         uses: actions/download-artifact@v3
         with:
           name: dist
-      
-      
       - uses: uraimo/run-on-arch-action@v2
-        name: set platform to linux and build image
+        name: set platform to linux and Build image and push to Docker Hub and GitHub
+          Container Registry
         id: settolinux
         with:
           arch: armv7
           distro: ubuntu18.04
-
-          # Not required, but speeds up builds by storing container images in
-          # a GitHub package registry.
-          githubToken: ${{ github.token }}
-
-          # Set an output parameter `uname` for use in subsequent steps
-          - name: Build image and push to Docker Hub and GitHub Container Registry
-        uses: docker/build-push-action@v2
-        with:
-          # relative path to the place where source code with Dockerfile is located
-          context: client/
-          # Note: tags has to be all lower-case
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/crowdcontract-frontend:latest
-          # build on feature branches, push only on main branch
-          push: ${{ github.ref == 'refs/heads/main' }}
-
+          uses: docker/build-push-action@v2
+          with:
+            context: client/
+            tags: ${{ secrets.DOCKERHUB_USERNAME }}/crowdcontract-frontend:latest
+            push: ${{ github.ref == 'refs/heads/main' }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-
-      
