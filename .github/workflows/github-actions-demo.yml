@@ -5,8 +5,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'client/**'
+    # paths:
+    #   - 'client/**'
 
 jobs:
   build-frontend-push-img-to-Dockerhub:
@@ -47,7 +47,20 @@ jobs:
         with:
           name: dist
       
-      - name: Build image and push to Docker Hub and GitHub Container Registry
+      
+      - uses: uraimo/run-on-arch-action@v2
+        name: set platform to linux and build image
+        id: settolinux
+        with:
+          arch: armv7
+          distro: ubuntu18.04
+
+          # Not required, but speeds up builds by storing container images in
+          # a GitHub package registry.
+          githubToken: ${{ github.token }}
+
+          # Set an output parameter `uname` for use in subsequent steps
+          - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
         with:
           # relative path to the place where source code with Dockerfile is located
@@ -59,3 +72,5 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+      
