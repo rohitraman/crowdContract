@@ -43,7 +43,7 @@ jobs:
         
       - uses: docker/build-push-action@v2
         with:
-          platform: linux/x86_64
+          platform: linux/arm64
           context: client/
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/crowdcontract-frontend:latest
           push: ${{ github.ref == 'refs/heads/main' }}
