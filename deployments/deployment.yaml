@@ -1,0 +1,19 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: crowdcontract-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: crowdcontract-frontend
+  template:
+    metadata:
+      labels:
+        app: crowdcontract-frontend
+    spec:
+      containers:
+      - name: crowdcontract-frontend
+        image: prathvirajbn/crowdcontract-frontend:latest
+        ports:
+        - containerPort: 80
