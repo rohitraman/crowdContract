@@ -15,5 +15,8 @@ spec:
       containers:
       - name: crowdcontract-frontend
         image: prathvirajbn/crowdcontract-frontend:latest
+        env:
+        - name: DOCKER_DEFAULT_PLATFORM
+          value: "linux/amd64"
         ports:
         - containerPort: 80
