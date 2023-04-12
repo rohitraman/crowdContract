@@ -10,7 +10,6 @@ jobs:
     name: build dist for nginx container
     runs-on: ubuntu-latest
     steps:
-      - run: export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
@@ -30,21 +29,23 @@ jobs:
         uses: docker/setup-qemu-action@v2
         
       - name: Set up Docker Buildx
-        id: buildx
         uses: docker/setup-buildx-action@v2
+        
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
       - name: copy dist to . from Artifacts
         uses: actions/download-artifact@v3
         with:
           name: dist
         
-      - uses: docker/build-push-action@v2
+      - uses: docker/build-push-action@v4
         with:
           context: client/
+          platforms: kinux/amd64,linux/arm64
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/crowdcontract-frontend:latest
           push: ${{ github.ref == 'refs/heads/main' }}
       - name: Image digest
