@@ -41,22 +41,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          
-      - name: Enable experimental features for the Docker daemon and CLI
-        run: |
-          echo $'{\n  "experimental": true\n}' | sudo tee /etc/docker/daemon.json
-          mkdir -p ~/.docker
-          echo $'{\n  "experimental": "enabled"\n}' | sudo tee ~/.docker/config.json
-          sudo service docker restart
-          docker version -f '{{.Client.Experimental}}'
-          docker version -f '{{.Server.Experimental}}'
-          docker buildx version 
         
-      - uses: docker/build-push-action@v4
-        with:
-          context: client/
-          platforms: linux/arm64
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/crowdcontract-frontend:latest
-          push: ${{ github.ref == 'refs/heads/main' }}
+      - name: build and push to DockerHub
+        run: |
+          docker buildx build --platform linux/amd64,linux/arm64/v8 --push --tag prathvirajbn/crowdcontract-frontend:latest ./client
+
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
