@@ -55,7 +55,7 @@ jobs:
       - uses: docker/build-push-action@v4
         with:
           context: client/
-          platforms: kinux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/crowdcontract-frontend:latest
           push: ${{ github.ref == 'refs/heads/main' }}
       - name: Image digest
