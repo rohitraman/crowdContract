@@ -10,7 +10,7 @@ jobs:
     name: build dist for nginx container
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{matrix.TARGET}}
+      - run: export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
