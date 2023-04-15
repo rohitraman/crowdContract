@@ -18,16 +18,22 @@ app.get("/api/", async (req, res) => {
 
 app.post("/api/users/login", async (req, res) => {
   const name = req.body["name"];
-  const cryptPassword = req.body["password"];
-
+  const password = req.body["password"];
   await User.findOne({name: name}).exec().then((user) => {
     if(user === null) return res.status(401).json({msg:"user not found"});
     if(name === user.name){
-      console.log("user",user);
       //implement jwt
-      if(cryptPassword === user.password) return res.json({jwt:"jwt"});
+      bcrypt.compare(password, user.password).then((result) => {
+        if (result) {
+          return res.json({jwt:"jwt", user: user});
+        } else {
+          return res.status(401).json({msg: "invalid username or password"})
+        }
+      });
+
+    } else {
+      return res.status(401).json({msg: "invalid username or password"})
     }
-    return res.status(401).json({msg: "invalid username or password"})
   });
 
 

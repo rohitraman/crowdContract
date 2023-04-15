@@ -30,6 +30,10 @@ const CreateCampaign = () => {
     image: "",
   });
 
+  const user = localStorage.getItem("user");
+  if (!user) {
+    navigate("/")
+  }
   const handleFormFieldChange = (fieldName, e) => {
     setForm({ ...form, [fieldName]: e.target.value });
   };

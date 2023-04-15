@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { logo, sun } from "../assets";
@@ -36,7 +36,14 @@ const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => {
 const SideBar = () => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState("dashboard");
-
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [isPremium, setIsPremium] = useState(user.isPremium);
+  const checkPremiumStatus = () => {
+    fetch("http://localhost:5051/api/users/" + user._id).then((response) => response.json())
+    .then((data) => {
+      setIsPremium(data.isPremium);
+    })
+  }
   return (
     <div className="flex justify-between items-center flex-col stickey top-5 h-[93vh]">
       <Link to="/">
@@ -46,11 +53,23 @@ const SideBar = () => {
       <div className="flex flex-1 flex-col justify-between items-center bg-[#1c1c24] rounded-[20px] w-[76px] py-4 mt-12">
         <div className="flex flex-col justify-center items-center gap-3 ">
           {navlinks.map((link) => (
-            <Icon
+            ((isPremium && link.name !== "payment") || !isPremium) && <Icon
               key={link.name}
               {...link}
               isActive={isActive}
               handleClick={() => {
+                console.log(user.isPremium)
+                if (link.name === "campaign") {
+                  checkPremiumStatus();
+                  if (!isPremium) { 
+                    setIsActive("payment");
+                    navigate("/payment")
+                    return;
+                  }
+                }
+                if (link.name === "logout") {
+                    localStorage.removeItem("user");
+                }
                 if (!link.disabled) {
                   setIsActive(link.name);
                   navigate(link.link);
@@ -59,7 +78,6 @@ const SideBar = () => {
             />
           ))}
         </div>
-        <Icon styles="bg-[#1c1c24] shadow-secondary" imgUrl={sun}/>
       </div>
     </div>
   );

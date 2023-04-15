@@ -7,7 +7,10 @@ const Profile = () => {
   const [campaigns, setCampaigns] = useState([]);
 
   const { address, contract, getUserCampaigns } = useStateContext();
-
+  const user = localStorage.getItem("user");
+  if (!user) {
+    navigate("/")
+  }
   const fetchCampaigns = async () => {
     const data = await getUserCampaigns();
     setCampaigns(data);

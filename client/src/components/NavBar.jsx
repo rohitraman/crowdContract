@@ -30,7 +30,7 @@ const NavBar = () => {
         </div>
       </div>
       <div className="sm:flex hidden flex-row justify-end gap-4 items-center">
-        <CustomButton
+        {/* <CustomButton
           btnType="button"
           title={address ? "create a campaign" : "connect"}
           styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
@@ -40,7 +40,7 @@ const NavBar = () => {
               connect();
             }
           }}
-        />
+        /> */}
 
         <Link to="/profile">
           <div className="w-[52px] h-[52px] rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
