@@ -5,7 +5,6 @@ import FundCard from "./FundCard";
 
 const DisplayCampaigns = ({ title, isloading, campaigns }) => {
   const navigate = useNavigate();
-
   const handleNavigate = (campaign) => {
     navigate(`/campaign-details/${campaign.title}`, { state: campaign });
   };
