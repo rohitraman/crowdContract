@@ -59,21 +59,21 @@
               cidr_ip: 0.0.0.0/0
               rule_desc: allow all on ssh port
         register: result_sec_group
-      tasks:
-        - name: Provision instances
-          amazon.aws.ec2_instance:
-            aws_access_key: "{{ec2_access_key}}"
-            aws_secret_key: "{{ec2_secret_key}}"
-            key_name: "{{ key_name }}"
-            image_id: "{{ image }}"
-            instance_type: t2.micro
-            region: "{{ region }}"
-            wait: true
-            count: 1
-            # exact_count: 2
-            # count_tag:
-            #   Name: App
-            # instance_tags:
-            #   Name: App
+        
+      - name: Provision instances
+        amazon.aws.ec2_instance:
+          aws_access_key: "{{ec2_access_key}}"
+          aws_secret_key: "{{ec2_secret_key}}"
+          key_name: "{{ key_name }}"
+          image_id: "{{ image }}"
+          instance_type: t2.micro
+          region: "{{ region }}"
+          wait: true
+          count: 1
+          # exact_count: 2
+          # count_tag:
+          #   Name: App
+          # instance_tags:
+          #   Name: App
 
       tags: ['never', 'create_ec2']
