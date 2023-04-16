@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { logo, sun } from "../assets";
 import { navlinks } from "../constants";
+import AES from 'crypto-js/aes';
+import cryptoJs from "crypto-js";
 
 const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => {
   return (
@@ -36,14 +38,18 @@ const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => {
 const SideBar = () => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState("dashboard");
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-  const [isPremium, setIsPremium] = useState(user.isPremium);
-  const checkPremiumStatus = () => {
-    fetch("http://localhost:5051/api/users/" + user._id).then((response) => response.json())
-    .then((data) => {
-      setIsPremium(data.isPremium);
-    })
-  }
+  const [user, setUser] = useState({});
+  const [isPremium, setIsPremium] = useState(false);
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+       setUser(JSON.parse(AES.decrypt(storedUser, 'password').toString(cryptoJs.enc.Utf8)))
+       setIsPremium(user.isPremium)
+    }
+  }, [])
+  useEffect(() => {
+    setIsPremium(user.isPremium) 
+  }, [user])
   return (
     <div className="flex justify-between items-center flex-col stickey top-5 h-[93vh]">
       <Link to="/">
@@ -58,9 +64,7 @@ const SideBar = () => {
               {...link}
               isActive={isActive}
               handleClick={() => {
-                console.log(user.isPremium)
                 if (link.name === "campaign") {
-                  checkPremiumStatus();
                   if (!isPremium) { 
                     setIsActive("payment");
                     navigate("/payment")

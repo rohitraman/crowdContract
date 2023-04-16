@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { CustomButton, FormFeild } from '../components';
 import { useNavigate } from 'react-router-dom';
+import AES from 'crypto-js/aes';
+import cryptoJs from 'crypto-js';
 
 function Login() {
     const navigate = useNavigate();
@@ -22,9 +24,14 @@ function Login() {
             headers: {
                 "Content-Type" : "application/json"
             }
-        }).then((response) => response.json())
+        })
+        .then((response) => response.text())
         .then((data) => {
-            localStorage.setItem("user", JSON.stringify(data.user));
+            var key = 'password';
+            // var e = AES.encrypt("my message", "abc").toString();
+            var d = AES.decrypt(data, key);
+            localStorage.setItem("user", AES.encrypt(JSON.stringify(JSON.parse(d.toString(cryptoJs.enc.Utf8)).user), key));
+
             navigate("/home")
         })
     }

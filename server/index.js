@@ -4,7 +4,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const app = express();
-
+var CryptoJS = require("crypto-js");
 dotenv.config();
 
 app.use(express.json());
@@ -25,9 +25,13 @@ app.post("/api/users/login", async (req, res) => {
       //implement jwt
       bcrypt.compare(password, user.password).then((result) => {
         if (result) {
-          return res.json({jwt:"jwt", user: user});
+          var key = 'password';
+          
+          var ciphertext = CryptoJS.AES.encrypt(JSON.stringify({jwt:"jwt", user: user}), key).toString();
+          return res.send(ciphertext);
         } else {
-          return res.status(401).json({msg: "invalid username or password"})
+          // JSON.stringify({msg: "invalid username or password"});
+          return res.status(401).send({msg: "invalid username or password"})
         }
       });
 
