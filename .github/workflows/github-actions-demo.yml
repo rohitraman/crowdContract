@@ -3,8 +3,8 @@ name: GitHub Actions for crowdContract
 run-name: ${{ github.actor }} has started using GitHub Actions 🚀
 on:
   push:
-    paths:
-      - 'client/**'
+    # paths:
+    #   - 'client/**'
     branches:
       - main
       
