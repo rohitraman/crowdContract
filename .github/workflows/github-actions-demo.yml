@@ -51,3 +51,24 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+      
+      - name: Run playbook
+      - uses: actions/checkout@v3
+      - uses: dawidd6/action-ansible-playbook@v2
+        with:
+          # Required, playbook filepath
+          playbook: ec2-provision.yml
+          # Optional, directory where playbooks live
+          directory: playbooks
+          # Optional, SSH private key
+          # key: ${{secrets.SSH_PRIVATE_KEY}}
+          # Optional, SSH known hosts file content
+          # known_hosts: |
+            # example.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+          # Optional, encrypted vault password
+          vault_password: ${{secrets.VAULT_PASSWORD}}
+          # Optional, galaxy requirements filepath
+          #  requirements: galaxy-requirements.yml
+          # Optional, additional flags to pass to ansible-playbook
+          options: |
+            --inventory hosts.yaml
