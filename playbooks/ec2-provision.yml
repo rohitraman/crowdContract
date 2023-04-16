@@ -61,6 +61,7 @@
         register: result_sec_group
 
       - name: Provision instance(s)
+        run: ansible-galaxy collection install amazon.aws
         amazon.aws.ec2_instance:
           aws_access_key: "{{ec2_access_key}}"
           aws_secret_key: "{{ec2_secret_key}}"
