@@ -2,7 +2,7 @@ name: Ansible deploy
  
 on:
   workflow_run:
-    workflows: ["CI build"]
+    workflows: ["testAndCreateDockerImage"]
     types:
       - completed
 
@@ -23,14 +23,19 @@ jobs:
     - name: set ansible config secrets
       env:
         ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
-        DO_SSH_KEY: ${{ secrets.DO_SSH_KEY }}
+        ANSIBLE_SSH_KEY: ${{ secrets.ANSIBLE_SSH_KEY }}
       run: |
         echo "$ANSIBLE_VAULT_PASSWORD" > .ansible-vault-password
         mkdir .ssh
-        echo "$DO_SSH_KEY" > .ssh/id_digitalocean
-        chmod 600 .ssh/id_digitalocean
-    - name: run exporters playbook
-      env:
-        DO_API_KEY: ${{ secrets.DO_API_KEY }}
+        echo "$ANSIBLE_SSH_KEY" > .ssh/ansiblekey
+        chmod 600 .ssh/ansiblekey
+    - name: run playbook
+      # env:
+      #   DO_API_KEY: ${{ secrets.DO_API_KEY }}
       run: |
-        ansible-playbook -i inventory play.yml
+        ansible-playbook -i hosts.yaml playbooks/ec2-provision.yml
+
+
+
+
+        VAULT_PASSWORD

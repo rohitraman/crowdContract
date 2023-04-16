@@ -1,6 +1,6 @@
 ---
 name: GitHub Actions for crowdContract
-run-name: ${{ github.actor }} has started using GitHub Actions 🚀
+run-name: testAndCreateDockerImage 🚀
 on:
   push:
     # paths:
