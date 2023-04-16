@@ -34,8 +34,3 @@ jobs:
       #   DO_API_KEY: ${{ secrets.DO_API_KEY }}
       run: |
         ansible-playbook -i hosts.yaml playbooks/ec2-provision.yml
-
-
-
-
-        VAULT_PASSWORD
