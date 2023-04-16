@@ -1,5 +1,5 @@
 ---
-name: GitHub Actions for crowdContract
+name: testAndCreateDockerImage
 run-name: testAndCreateDockerImage 🚀
 on:
   push:
