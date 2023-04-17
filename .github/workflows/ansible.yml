@@ -1,12 +1,12 @@
 name: Ansible deploy
- 
-# on:
+# on: 
 #   workflow_run:
 #     workflows: ["testAndCreateDockerImage"]
 #     types:
 #       - completed
 
-
+on:
+ [push]
 jobs:
   notify:
     runs-on: ubuntu-latest
