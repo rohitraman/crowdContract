@@ -1,11 +1,12 @@
 name: Ansible deploy
- 
-# on:
+# on: 
 #   workflow_run:
 #     workflows: ["testAndCreateDockerImage"]
 #     types:
 #       - completed
 
+on:
+ [push]
 jobs:
   deploy_code:
     runs-on: ubuntu-latest
@@ -34,17 +35,17 @@ jobs:
   #       pip install ansible==2.9.2 requests
   #       ansible-galaxy collection install amazon.aws
         
-  #   - name: set ansible config secrets
-  #     env:
-  #       ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
-  #       ANSIBLE_SSH_KEY: ${{ secrets.ANSIBLE_SSH_KEY }}
-  #     run: |
-  #       echo "$ANSIBLE_VAULT_PASSWORD" > .ansible-vault-password
-  #       mkdir .ssh
-  #       echo "$ANSIBLE_SSH_KEY" > .ssh/ansiblekey
-  #       chmod 600 .ssh/ansiblekey
-  #   - name: run playbook
-  #     # env:
-  #     #   DO_API_KEY: ${{ secrets.DO_API_KEY }}
-  #     run: |
-  #       sudo ansible-playbook ansibleTest.yaml --ask-vault-pass --tags create_ec2
+  #  - name: set ansible config secrets
+  #    env:
+  #      ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+  #      ANSIBLE_SSH_KEY: ${{ secrets.ANSIBLE_SSH_KEY }}
+  #    run: |
+  #      echo "$ANSIBLE_VAULT_PASSWORD" > .ansible-vault-password
+  #      mkdir .ssh
+  #      echo "$ANSIBLE_SSH_KEY" > .ssh/ansiblekey
+  #      chmod 600 .ssh/ansiblekey
+  #  - name: run playbook
+  #    # env:
+  #    #   DO_API_KEY: ${{ secrets.DO_API_KEY }}
+  #    run: |
+  #      ansible-playbook playbooks/ec2-provision.yml --ask-vault-pass --tags create_ec2
