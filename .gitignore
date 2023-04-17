@@ -26,3 +26,7 @@ dist-ssr
 client/package-lock.json
 package-lock.json
 server/.env
+.env
+ansiblekey.pub
+ansiblekey
+rootkey.csv
