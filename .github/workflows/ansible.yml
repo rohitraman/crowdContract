@@ -6,20 +6,39 @@ name: Ansible deploy
 #       - completed
 
 on:
- [push]
+  push:
+    paths:
+      - '/'
+    branches:
+      - main
 jobs:
-  deploy_code:
+  build-frontend-push-img-to-Dockerhub:
+    name: build dist for nginx container
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Run Ansible playbook
-        uses: dawidd6/action-ansible-playbook@v2.5.0
-        with:
-          playbook: /playbooks/ec2-provision.yml # path to your Ansible playbook
-          directory: ./
-          key: ${{ secrets.ANSIBLE_SSH_KEY }} # the ssh private key for ansible to use to connect to the servers, stored as "ansible_ssh_private_key" in the GitHub secrets
-          inventory: ${{ secrets.ANSIBLE_VAULT_PASSWORD }} # the ansible inventory to use, stored as "ansible_inventory" in the GitHub secrets
-          tags: create_ec2
+    - uses: actions/checkout@v3
+    - name: Run playbook
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        # Required, playbook filepath
+        playbook: ec2-provision.yml
+        # Optional, directory where playbooks live
+        directory: ./playbooks
+        # Optional, SSH private key
+        key: ${{secrets.ANSIBLE_SSH_KEY}}
+        
+        # Optional, SSH known hosts file content
+        # known_hosts: |
+          # example.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+        # Optional, encrypted vault password
+        vault_password: ${{secrets.VAULT_PASSWORD}}
+        # Optional, galaxy requirements filepath
+#         requirements: galaxy-requirements.yml
+        # Optional, additional flags to pass to ansible-playbook
+        options: |
+          --inventory ./hosts.yaml
+          --extra-vars tags=create_ec2
+          --verbose
 
   # notify:
   #   runs-on: ubuntu-latest
