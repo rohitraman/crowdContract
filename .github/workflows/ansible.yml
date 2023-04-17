@@ -1,6 +1,5 @@
 name: Ansible deploy
- 
-on:
+ on:
   workflow_run:
     workflows: ["testAndCreateDockerImage"]
     types:
@@ -35,4 +34,4 @@ jobs:
       # env:
       #   DO_API_KEY: ${{ secrets.DO_API_KEY }}
       run: |
-        ansible-playbook ansibleTest.yaml --ask-vault-pass --tags create_ec2
+        ansible-playbook playbooks/ec2-provision.yml --ask-vault-pass --tags create_ec2
