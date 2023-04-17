@@ -11,6 +11,7 @@ jobs:
   deploy_code:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: Run Ansible playbook
         uses: dawidd6/action-ansible-playbook@v2.5.0
         with:
