@@ -7,8 +7,8 @@ name: Ansible deploy
 
 on:
   push:
-    paths:
-      - '/'
+#     paths:
+#       - '/'
     branches:
       - main
 jobs:
