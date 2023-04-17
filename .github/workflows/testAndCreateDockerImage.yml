@@ -3,8 +3,8 @@ name: testAndCreateDockerImage
 run-name: testAndCreateDockerImage 🚀
 on:
   push:
-    # paths:
-    #   - 'client/**'
+    paths:
+      - 'client/**'
     branches:
       - main
       
