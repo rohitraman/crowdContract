@@ -4,7 +4,8 @@ name: Ansible deploy
 #     workflows: ["testAndCreateDockerImage"]
 #     types:
 #       - completed
-
+env:
+  "ANSIBLE_CONFIG" : /home/runner/work/crowdContract/crowdContract/ansible.cfg
 on:
   push:
 #     paths:
