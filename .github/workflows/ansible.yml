@@ -35,4 +35,4 @@ jobs:
       # env:
       #   DO_API_KEY: ${{ secrets.DO_API_KEY }}
       run: |
-        sudo ansible-playbook ansibleTest.yaml --ask-vault-pass --tags create_ec2
+        ansible-playbook ansibleTest.yaml --ask-vault-pass --tags create_ec2
