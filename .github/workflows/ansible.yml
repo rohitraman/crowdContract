@@ -1,10 +1,10 @@
 name: Ansible deploy
  
-on:
-  workflow_run:
-    workflows: ["testAndCreateDockerImage"]
-    types:
-      - completed
+# on:
+#   workflow_run:
+#     workflows: ["testAndCreateDockerImage"]
+#     types:
+#       - completed
 
 jobs:
   notify:
