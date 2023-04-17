@@ -23,7 +23,7 @@ jobs:
         # Required, playbook filepath
         playbook: ec2-provision.yml
         # Optional, directory where playbooks live
-        directory: ./playbooks
+        directory: /home/runner/work/crowdContract/crowdContract/playbooks
         # Optional, SSH private key
         key: ${{secrets.ANSIBLE_SSH_KEY}}
         
