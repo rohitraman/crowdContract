@@ -8,11 +8,11 @@ const App = () => {
     const navigate = useNavigate();
     // const user=
     const user = localStorage.getItem("user");
-    // useEffect(() => {
-    //     if (user) {
-    //         navigate("/home");
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (user) {
+            navigate("/home");
+        }
+    }, [])
     return (
         <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-row">
             {user && <div className="sm:flex hidden mr-10 relative"> <SideBar/> </div>}
