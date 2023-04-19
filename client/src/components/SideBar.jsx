@@ -6,6 +6,7 @@ import { navlinks } from "../constants";
 import AES from 'crypto-js/aes';
 import cryptoJs from "crypto-js";
 
+
 const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => {
   return (
     <div
@@ -43,7 +44,7 @@ const SideBar = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-       setUser(JSON.parse(AES.decrypt(storedUser, 'password').toString(cryptoJs.enc.Utf8)))
+       setUser(JSON.parse(AES.decrypt(storedUser, import.meta.env.VITE_AES_SECRET_KEY).toString(cryptoJs.enc.Utf8)))
        setIsPremium(user.isPremium)
     }
   }, [])
@@ -52,7 +53,7 @@ const SideBar = () => {
   }, [user])
   return (
     <div className="flex justify-between items-center flex-col stickey top-5 h-[93vh]">
-      <Link to="/">
+      <Link to="/home">
         <Icon styles="bg-[#2c2f32] w-[48px] h-[48px]" imgUrl={logo} />
       </Link>
 
@@ -73,6 +74,7 @@ const SideBar = () => {
                 }
                 if (link.name === "logout") {
                     localStorage.removeItem("user");
+                    localStorage.removeItem("jwt");
                 }
                 if (!link.disabled) {
                   setIsActive(link.name);
