@@ -1,19 +1,29 @@
-- name: Run Ansible Playbook
-  uses: actions/checkout@v3
-  uses: dawidd6/action-ansible-playbook@v2
-  with:
-    # Required, playbook filepath
-    playbook: deployToAws.yaml
-    # Optional, directory where playbooks live
-    directory: '${{ github.workspace }}/playbooks'
-    # Optional, SSH private key
-    key: ${{ secrets.ANSIBLE_SSH_KEY }}
-    # Optional, literal inventory file contents
-    inventory: |
-      [local]
-      localhost ansible_connection=local
-    # Optional, additional flags to pass to ansible-playbook
-    options: |
-      # --limit group1
-      # --extra-vars hello=there
-      # --verbose
+on:
+  push:
+    paths:
+      - 'client/**'
+    branches:
+      - main
+
+jobs:
+  Run-ansible-playbook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dawidd6/action-ansible-playbook@v2
+        with:
+          # Required, playbook filepath
+          playbook: deployToAws.yaml
+          # Optional, directory where playbooks live
+          directory: '${{ github.workspace }}/playbooks'
+          # Optional, SSH private key
+          key: ${{ secrets.ANSIBLE_SSH_KEY }}
+          # Optional, literal inventory file contents
+          inventory: |
+            [local]
+            localhost ansible_connection=local
+          # Optional, additional flags to pass to ansible-playbook
+          options: |
+            # --limit group1
+            # --extra-vars hello=there
+            # --verbose
