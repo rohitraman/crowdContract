@@ -23,7 +23,7 @@ jobs:
             [local]
             localhost ansible_connection=local
           # Optional, additional flags to pass to ansible-playbook
-          options: |
+          # options: |
             # --limit group1
             # --extra-vars hello=there
             # --verbose
