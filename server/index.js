@@ -6,14 +6,15 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const app = express();
 var CryptoJS = require("crypto-js");
-dotenv.config();
+const getSecretsFromAwsSecretManager = require('./utils/getSecrets.js');
 
+dotenv.config();
 app.use(express.json());
 app.use(cors());
 
 const { User } = require("./models/UserModel");
 
-
+// console.log(getSecretsFromAwsSecretManager("MONGO_URI"))
 //Check to make sure header is not undefined, if so, return Forbidden (403)
 const checkToken = (req, res, next) => {
   console.log(req.originalUrl)

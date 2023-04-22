@@ -1,58 +1,19 @@
-name: Ansible deploy
-# on: 
-#   workflow_run:
-#     workflows: ["testAndCreateDockerImage"]
-#     types:
-#       - completed
-env:
-  "ANSIBLE_CONFIG" : ${{vars.ANSIBLE_CONFIG}}
-on:
-  push:
-#     paths:
-#       - '/'
-    branches:
-      - main
-jobs:
-  build-frontend-push-img-to-Dockerhub:
-    name: build dist for nginx container
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-    - name: Check python path
-      run: |
-        python3 -c "import os; print(os.environ['_'])"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install boto3 botocore
-         
-    - name: Run playbook
-      uses: dawidd6/action-ansible-playbook@v2
-      env:
-        ec2_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-        ec2_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-        PUBLIC_KEY : ${{ secrets.AWS_PUBLIC_KEY }}
-      with:
-        # Required, playbook filepath
-        playbook: ec2-provision.yml
-        # Optional, directory where playbooks live
-        directory: /home/runner/work/crowdContract/crowdContract/playbooks
-        # Optional, SSH private key
-        key: ${{secrets.ANSIBLE_SSH_KEY}}
-        
-        # Optional, SSH known hosts file content
-        # known_hosts: |
-          # example.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
-        # Optional, encrypted vault password
-        vault_password: ${{secrets.ANSIBLE_VAULT_PASSWORD}}
-        # Optional, galaxy requirements filepath
-#         requirements: galaxy-requirements.yml
-        # Optional, additional flags to pass to ansible-playbook
-        options: |
-          --inventory ./hosts.yaml
-          --tags create_ec2
-          --verbose
+- name: Run Ansible Playbook
+  uses: actions/checkout@v3
+  uses: dawidd6/action-ansible-playbook@v2
+  with:
+    # Required, playbook filepath
+    playbook: deployToAws.yaml
+    # Optional, directory where playbooks live
+    directory: '${{ github.workspace }}/playbooks'
+    # Optional, SSH private key
+    key: ${{ secrets.ANSIBLE_SSH_KEY }}
+    # Optional, literal inventory file contents
+    inventory: |
+      [local]
+      localhost ansible_connection=local
+    # Optional, additional flags to pass to ansible-playbook
+    options: |
+      # --limit group1
+      # --extra-vars hello=there
+      # --verbose

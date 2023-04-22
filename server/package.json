@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.317.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
