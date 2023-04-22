@@ -1,7 +1,7 @@
 on:
   push:
-    paths:
-      - 'client/**'
+#     paths:
+#       - 'client/**'
     branches:
       - main
 
