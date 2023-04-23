@@ -14,7 +14,7 @@
     #     source: pull
 
     - name: Create Docker container
-      shell: "docker run -d -p 4001:3000 prathvirajbn/calcapp"
+      shell: "docker run -d -p 80:80 prathvirajbn/crowdcontract-frontend"
     
     # - name: Create Docker container server
     #   shell: "docker run -d -p 4002:4002 prathvirajbn/server"
