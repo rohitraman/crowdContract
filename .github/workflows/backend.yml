@@ -1,13 +1,13 @@
 ---
-name: testAndCreateDockerImage
-run-name: testAndCreateDockerImage 🚀
+name: testAndCreateDockerImageBackend
+run-name: testAndCreateDockerImageBackend
 on:
   push:
     paths:
       - 'server/**'
     branches:
       - main
-      
+    
 jobs:
   build-frontend-push-img-to-Dockerhub:
     name: build dist for nginx container
@@ -47,6 +47,6 @@ jobs:
         
       - name: build and push to DockerHub
         run: |
-          docker buildx build --platform linux/amd64,linux/arm64/v8 --push --tag prathvirajbn/crowdcontract-frontend:latest ./client
+          docker buildx build --platform linux/amd64,linux/arm64/v8 --push --tag rohitraman/crowdcontract-backend:latest ./client
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
