@@ -7,7 +7,7 @@ on:
       - 'server/**'
     branches:
       - main
-      
+    
 jobs:
   build-frontend-push-img-to-Dockerhub:
     name: build dist for nginx container
