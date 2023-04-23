@@ -27,5 +27,8 @@ jobs:
             # --limit group1
             # --extra-vars hello=there
             # --verbose
+      - uses: jakejarvis/wait-action@master
+        with:
+          time: '5s'
       - run: |
           curl http://localhost:80 | grep "<title>crowdFunder</title>"
