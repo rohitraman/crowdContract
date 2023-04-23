@@ -28,4 +28,4 @@ jobs:
             # --extra-vars hello=there
             # --verbose
       - run: |
-          curl http://localhost:80
+          curl http://localhost:80 | grep "<title>crowdFunder</title>"
