@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Pull Docker image
+      docker_image:
+        name: prathvirajbn/crowdcontract-frontend
+        tag: latest
+        source: pull
+    
+    # - name: Pull Docker image server
+    #   docker_image:
+    #     name: prathvirajbn/crowdcontract-backend
+    #     tag: latest
+    #     source: pull
+
+    - name: Create Docker container
+      shell: "docker run -d -p 4001:3000 prathvirajbn/calcapp"
+    
+    # - name: Create Docker container server
+    #   shell: "docker run -d -p 4002:4002 prathvirajbn/server"
+
+
+# For k8s
+# python >= 3.6
+# kubernetes >= 12.0.0
+# PyYAML >= 3.11
+# jsonpatch
+
