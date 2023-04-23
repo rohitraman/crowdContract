@@ -27,3 +27,5 @@ jobs:
             # --limit group1
             # --extra-vars hello=there
             # --verbose
+      - run: |
+          curl http://localhost:80
