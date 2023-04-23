@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 var bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken"); 
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
