@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: local
   tasks:
     - name: Pull Docker image
       docker_image:
