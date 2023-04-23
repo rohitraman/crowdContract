@@ -1,6 +1,6 @@
 ---
-name: testAndCreateDockerImage
-run-name: testAndCreateDockerImage 🚀
+name: testAndCreateDockerImageBackend
+run-name: testAndCreateDockerImageBackend
 on:
   push:
     paths:
