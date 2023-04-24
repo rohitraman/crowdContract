@@ -3,8 +3,8 @@ name: testAndCreateDockerImageBackend
 run-name: testAndCreateDockerImageBackend
 on:
   push:
-    paths:
-      - 'server/**'
+#     paths:
+#       - 'server/**'
     branches:
       - main
     
