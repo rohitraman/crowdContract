@@ -3,3 +3,8 @@
 
 # [all:vars]
 # ansible_python_interpreter=/Users/prathvirajbn/anaconda3/bin/python
+[local]
+localhost ansible_connection=local
+
+[all:vars]
+ansible_python_interpreter=/opt/hostedtoolcache/Python/3.11.3/x64/bin/python3
