@@ -27,8 +27,30 @@ jobs:
             # --limit group1
             # --extra-vars hello=there
             # --verbose
+      - name: Run playbook
+      - uses: dawidd6/action-ansible-playbook@v2
+        with:
+          # Required, playbook filepath
+          playbook: deployToAws.yml
+          # Optional, directory where playbooks live
+          directory: /home/runner/work/crowdContract/crowdContract/playbooks
+          # Optional, SSH private key
+          key: ${{secrets.ANSIBLE_SSH_KEY}}
+
+          # Optional, SSH known hosts file content
+          # known_hosts: |
+            # example.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+          # Optional, encrypted vault password
+          vault_password: ${{secrets.ANSIBLE_VAULT_PASSWORD}}
+          # Optional, galaxy requirements filepath
+  #         requirements: galaxy-requirements.yml
+          # Optional, additional flags to pass to ansible-playbook
+          options: |
+            --inventory hosts
+            --tags create_ec2
+            --verbose
       - uses: jakejarvis/wait-action@master
         with:
           time: '5s'
       - run: |
-          curl http://localhost:80 | grep "<title>crowdFunder</title>"
+          ansible-playbook -i hosts.yaml playbooks/deployToAws.yml
