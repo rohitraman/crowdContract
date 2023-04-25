@@ -1,6 +1,8 @@
 ---
 - hosts: local
   tasks:
+    - name: SSH into AWS
+      shell: "ssh-copy-id ec2-user@44.203.184.24 -y"
     - name: Pull Docker image
       docker_image:
         name: prathvirajbn/crowdcontract-frontend
