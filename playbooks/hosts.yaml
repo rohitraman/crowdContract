@@ -1,5 +1,5 @@
-[local] 
-44.203.184.24 ansible_user=ec2-user
+# [local] 
+# 44.203.184.24 ansible_user=ec2-user
 
-[all:vars]
-ansible_python_interpreter=/Users/prathvirajbn/anaconda3/bin/python
+# [all:vars]
+# ansible_python_interpreter=/Users/prathvirajbn/anaconda3/bin/python
