@@ -1,1 +1,1 @@
-44.203.184.24 ansible_user=ec2-user
+[local] 44.203.184.24 ansible_user=ec2-user
