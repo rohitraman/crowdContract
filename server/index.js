@@ -13,7 +13,17 @@ app.use(express.json());
 app.use(cors());
 
 const { User } = require("./models/UserModel");
-
+const { createLogger, format, transports } = require('winston');
+const logger = createLogger({
+  level: 'debug',
+  format: format.combine(
+    format.timestamp({format: `YYYY-MM-DDTHH:mm:ss.SSSZ`}),
+    format.json()
+  ),
+  transports: [new transports.File({
+    filename: "/logs/service.log"
+  })]
+});
 // console.log(getSecretsFromAwsSecretManager("MONGO_URI"))
 //Check to make sure header is not undefined, if so, return Forbidden (403)
 const checkToken = (req, res, next) => {
@@ -67,11 +77,15 @@ app.post("/api/users/login", async (req, res) => {
   await User.findOne({ name: name })
     .exec()
     .then((user) => {
-      if (user === null) return res.status(401).json({ msg: "user not found" });
-      //implement jwt
+      if (user === null) {
+        logger.error("Login failed for user: " + name);
+        return res.status(401).json({ msg: "user not found" });
+      }
+       //implement jwt
       if (name === user.name) {
         bcrypt.compare(password, user.password).then((result) => {
           if (result) {
+            logger.info("Successfully logged in user: " + name);
             const jwtoken = jwt.sign(
               { name: user.name },
               process.env.JWT_SECRET_KEY,
@@ -87,6 +101,7 @@ app.post("/api/users/login", async (req, res) => {
               .json({ msg: "loginSuccess", jwt: jwtoken, user: ciphertext });
           } else {
             // JSON.stringify({msg: "invalid username or password"});
+            logger.error("Invalid username or password: " + name);
             return res
               .status(401)
               .json({ msg: "invalidAuth" });
