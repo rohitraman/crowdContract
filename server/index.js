@@ -6,63 +6,66 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const app = express();
 var CryptoJS = require("crypto-js");
-const getSecretsFromAwsSecretManager = require('./utils/getSecrets.js');
+const getSecretsFromAwsSecretManager = require("./utils/getSecrets.js");
 
 dotenv.config();
 app.use(express.json());
 app.use(cors());
 
 const { User } = require("./models/UserModel");
-const { createLogger, format, transports } = require('winston');
+const { createLogger, format, transports } = require("winston");
 const logger = createLogger({
-  level: 'debug',
+  level: "debug",
   format: format.combine(
-    format.timestamp({format: `YYYY-MM-DDTHH:mm:ss.SSSZ`}),
+    format.timestamp({ format: `YYYY-MM-DDTHH:mm:ss.SSSZ` }),
     format.json()
   ),
-  transports: [new transports.File({
-    filename: "/logs/service.log"
-  })]
+  transports: [
+    new transports.File({
+      filename: "./logs/service.log",
+    }),
+  ],
 });
 // console.log(getSecretsFromAwsSecretManager("MONGO_URI"))
 //Check to make sure header is not undefined, if so, return Forbidden (403)
 const checkToken = (req, res, next) => {
-  console.log(req.originalUrl)
-  if (req.originalUrl === '/api/users/login') {
-    console.log('Surpass JWT for login');
+  console.log(req.originalUrl);
+  if (req.originalUrl === "/api/users/login") {
+    console.log("Surpass JWT for login");
     return next();
-  };
-  
-  const header = req.headers['authorization'];
-
-  if(typeof header !== 'undefined') {
-      const bearer = header.split(' ');
-      const token = bearer[1];
-      jwt.verify(token, process.env.JWT_SECRET_KEY
-      , (err, authorizedData) => {
-        if(err){
-            //If error send Forbidden (403)
-            console.log('ERROR: Could not connect to the protected route');
-            res.sendStatus(403);
-        } else {
-            //If token is successfully verified, we can send the autorized data 
-            req.token = token;
-            if(req.body["userName"] !== authorizedData.name){
-              console.log('User ',authorizedData.name,' dose not have access to this data!');
-              return res.status(403).json({msg: "unauthorizedAccess"});
-            }
-            console.log('User ',authorizedData.name,' authenticated');
-            return next();
-        }
-    })
-
-
-  } else {
-      //If header is undefined return Forbidden (403)
-
-      return res.status(403).json({msg : "unauthorized"})
   }
-}
+
+  const header = req.headers["authorization"];
+
+  if (typeof header !== "undefined") {
+    const bearer = header.split(" ");
+    const token = bearer[1];
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, authorizedData) => {
+      if (err) {
+        //If error send Forbidden (403)
+        console.log("ERROR: Could not connect to the protected route");
+        res.sendStatus(403);
+      } else {
+        //If token is successfully verified, we can send the autorized data
+        req.token = token;
+        if (req.body["userName"] !== authorizedData.name) {
+          console.log(
+            "User ",
+            authorizedData.name,
+            " dose not have access to this data!"
+          );
+          return res.status(403).json({ msg: "unauthorizedAccess" });
+        }
+        console.log("User ", authorizedData.name, " authenticated");
+        return next();
+      }
+    });
+  } else {
+    //If header is undefined return Forbidden (403)
+
+    return res.status(403).json({ msg: "unauthorized" });
+  }
+};
 
 app.use(checkToken);
 
@@ -81,7 +84,7 @@ app.post("/api/users/login", async (req, res) => {
         logger.error("Login failed for user: " + name);
         return res.status(401).json({ msg: "user not found" });
       }
-       //implement jwt
+      //implement jwt
       if (name === user.name) {
         bcrypt.compare(password, user.password).then((result) => {
           if (result) {
@@ -102,9 +105,7 @@ app.post("/api/users/login", async (req, res) => {
           } else {
             // JSON.stringify({msg: "invalid username or password"});
             logger.error("Invalid username or password: " + name);
-            return res
-              .status(401)
-              .json({ msg: "invalidAuth" });
+            return res.status(401).json({ msg: "invalidAuth" });
           }
         });
       }
@@ -113,7 +114,7 @@ app.post("/api/users/login", async (req, res) => {
 
 app.get("/api/users", async (req, res) => {
   const allUsers = await User.find();
-  return res.status(200).json({msg: "success",data: allUsers});
+  return res.status(200).json({ msg: "success", data: allUsers });
 });
 
 app.post("/api/users/getUser", async (req, res) => {
@@ -123,29 +124,46 @@ app.post("/api/users/getUser", async (req, res) => {
     return res.status(200).json(user);
   } catch (error) {
     console.log(error);
-    return res.status(200).json({msg: "userNotFound"});
+    return res.status(200).json({ msg: "userNotFound" });
   }
+});
+
+app.post("/api/users/getPremium", async (req, res) => {
+
+  let user = await User.findOneAndUpdate(
+    { name: req.body["userName"] },
+    { isPremium: true }
+  )
+    console.log(user);
+    var ciphertext = CryptoJS.AES.encrypt(
+    JSON.stringify({ user: user }),
+    process.env.AES_SECRET_KEY
+  ).toString();
+
+  return res
+    .status(200)
+    .json({ msg: "success", user: ciphertext });
+
 });
 
 app.post("/api/users/add", async (req, res) => {
   const newUser = new User({ ...req.body });
   const savedUser = await newUser.save();
-  return res.status(201).json({msg: "success",data: savedUser});
+  return res.status(201).json({ msg: "success", data: savedUser });
 });
 
 app.put("/api/users/update/:id", async (req, res) => {
   const { id } = req.params;
   await User.updateOne({ id }, req.body);
   const updatedUser = await User.findById(id);
-  return res.status(200).json({msg: "success",data: updatedUser});
+  return res.status(200).json({ msg: "success", data: updatedUser });
 });
 
 app.delete("/api/users/delete/:id", async (req, res) => {
   const { id } = req.params;
   const deletedUser = await User.findByIdAndDelete(id);
-  return res.status(200).json({msg: "success",data: deletedUser});
+  return res.status(200).json({ msg: "success", data: deletedUser });
 });
-
 
 const startServer = async () => {
   try {

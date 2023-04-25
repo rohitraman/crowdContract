@@ -7,8 +7,7 @@ import { logo, menu, search, thirdweb } from "../assets";
 import { navlinks } from "../constants";
 import { useStateContext } from "../context";
 
-import AES from 'crypto-js/aes';
-import cryptoJs from 'crypto-js';
+
 
 const NavBar = () => {
   const navigate = useNavigate();
