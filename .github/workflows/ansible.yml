@@ -49,8 +49,8 @@ jobs:
             --inventory hosts
             --tags create_ec2
             --verbose
-      - uses: jakejarvis/wait-action@master
-        with:
-          time: '5s'
-      - run: |
-          ansible-playbook -i hosts.yaml playbooks/deployToAws.yml
+#       - uses: jakejarvis/wait-action@master
+#         with:
+#           time: '5s'
+#       - run: |
+#           ansible-playbook -i hosts.yaml playbooks/deployToAws.yml
