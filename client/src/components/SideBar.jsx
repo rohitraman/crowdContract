@@ -65,12 +65,12 @@ const SideBar = () => {
               {...link}
               isActive={isActive}
               handleClick={() => {
-                if (link.name === "campaign") {
-                  if (!isPremium) { 
+                if (!isPremium && link.name === "campaign") {
+                  
                     setIsActive("payment");
                     navigate("/payment")
                     return;
-                  }
+                  
                 }
                 if (link.name === "logout") {
                     localStorage.removeItem("user");
