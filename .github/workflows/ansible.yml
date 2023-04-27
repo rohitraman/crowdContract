@@ -50,7 +50,7 @@ jobs:
 #         requirements: galaxy-requirements.yml
         # Optional, additional flags to pass to ansible-playbook
         options: |
-          -i myhost.local,
+          -i localhost,
           --tags create_ec2
           --verbose
 
