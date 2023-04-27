@@ -35,6 +35,7 @@ jobs:
         echo "$SSH_PRIVATE_KEY" > ../private.key
         sudo chmod 600 ../private.key
         echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+        ssh -o StrictHostKeyChecking=no ansible@3.82.189.67 'sudo docker pull ubuntu'
       env:
           SSH_PRIVATE_KEY: ${{secrets.AWS_SSH_KEY}}
           SSH_KNOWN_HOSTS: ${{secrets.AWS_KNOWN_HOSTS}}
