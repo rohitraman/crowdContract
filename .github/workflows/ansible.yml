@@ -53,7 +53,9 @@ jobs:
           -i ./hosts.yaml,
           --tags create_ec2
           --verbose
-
+    - name: SSH Copy id
+      run: |
+        ssh-copy-id ansible@3.86.86.112
   # notify:
   #   runs-on: ubuntu-latest
 
