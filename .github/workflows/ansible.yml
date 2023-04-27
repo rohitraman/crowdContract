@@ -64,7 +64,6 @@ jobs:
           --inventory ./hosts.yaml
           --tags create_ec2
           --verbose
-          - kK
 
   # notify:
   #   runs-on: ubuntu-latest
