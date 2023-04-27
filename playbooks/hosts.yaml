@@ -1,5 +1,5 @@
 [local] 
-3.82.189.67 ansible_user=ansible
+3.82.189.67 ansible_ssh_user=ansible ansible_ssh_pass=ansible
 
 [all:vars]
 ansible_python_interpreter=/Users/prathvirajbn/anaconda3/bin/python
