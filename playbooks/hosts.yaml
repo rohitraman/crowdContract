@@ -1,10 +1,10 @@
-# [local] 
-# 44.203.184.24 ansible_user=ec2-user
-
-# [all:vars]
-# ansible_python_interpreter=/Users/prathvirajbn/anaconda3/bin/python
-[local]
-localhost ansible_connection=local
+[local] 
+3.82.189.67 ansible_user=ansible
 
 [all:vars]
-ansible_python_interpreter=/opt/hostedtoolcache/Python/3.11.3/x64/bin/python3
+ansible_python_interpreter=/Users/prathvirajbn/anaconda3/bin/python
+# [local]
+# localhost ansible_connection=local
+
+# [all:vars]
+# ansible_python_interpreter=/opt/hostedtoolcache/Python/3.11.3/x64/bin/python3
