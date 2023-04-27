@@ -53,12 +53,16 @@ jobs:
           -i ./hosts.yaml,
           --tags create_ec2
           --verbose
-    - name: Create SSH Key
+    - name: Create SSH key
       run: |
-        ssh-keygen -t rsa
-    - name: SSH Copy id
-      run: |
-        ssh-copy-id ansible@3.86.86.112
+        mkdir -p ~/.ssh/
+        echo "$SSH_PRIVATE_KEY" > ../private.key
+        sudo chmod 600 ../private.key
+        echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+      env:
+          SSH_PRIVATE_KEY: ${{secrets.AWS_PRIVATE_KEY}}
+          SSH_KNOWN_HOSTS: ${{secrets.AWS_KNOWN_HOSTS}}
+          SSH_KEY_PATH: ${{ github.workspace }}/../private.key
   # notify:
   #   runs-on: ubuntu-latest
 
