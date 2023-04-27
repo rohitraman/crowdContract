@@ -8,19 +8,6 @@ function Login() {
     // console.log(import.meta.env.VITE_AES_SECRET_KEY)
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     const user = localStorage.getItem("user");
-    //     const jwt  = localStorage.getItem("jwt") ;
-
-    //     if (user && jwt) {
-    //         navigate("/home");
-    //     }else {
-    //         localStorage.removeItem("user");
-    //         localStorage.removeItem("jwt");
-    //         navigate("/")
-    //     }
-    // },[])
-
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
 

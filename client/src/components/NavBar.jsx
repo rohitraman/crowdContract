@@ -7,6 +7,8 @@ import { logo, menu, search, thirdweb } from "../assets";
 import { navlinks } from "../constants";
 import { useStateContext } from "../context";
 
+
+
 const NavBar = () => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState("dashboard");
@@ -30,17 +32,18 @@ const NavBar = () => {
         </div>
       </div>
       <div className="sm:flex hidden flex-row justify-end gap-4 items-center">
-        {/* <CustomButton
+        <CustomButton
           btnType="button"
           title={address ? "create a campaign" : "connect"}
           styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
           handleClick={() => {
-            if (address) navigate("create-campaign");
-            else {
-              connect();
-            }
+            const data_decrypted = AES.decrypt(localStorage['user'], import.meta.env.VITE_AES_SECRET_KEY);
+            const isPremium = JSON.parse(data_decrypted.toString(cryptoJs.enc.Utf8))['isPremium'];
+            if(!isPremium) navigate("payment");
+            else if (address) navigate("create-campaign");
+            else connect();
           }}
-        /> */}
+        />
 
         <Link to="/profile">
           <div className="w-[52px] h-[52px] rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">

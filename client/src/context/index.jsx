@@ -34,6 +34,7 @@ export const StateContextProvider = ({ children }) => {
       ]);
       console.log("Contract call Success!");
     } catch (e) {
+      console.log(e);
       console.log("Contract call error!");
     }
   };

@@ -6,7 +6,7 @@ import { SideBar,NavBar } from "./components";
 
 const App = () => {
     const navigate = useNavigate();
-    // const user=
+
     const user = localStorage.getItem("user");
     useEffect(() => {
         if (user) {
