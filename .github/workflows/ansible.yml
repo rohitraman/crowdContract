@@ -53,6 +53,9 @@ jobs:
           -i ./hosts.yaml,
           --tags create_ec2
           --verbose
+    - name: Create SSH Key
+      run: |
+        ssh-keygen -t rsa
     - name: SSH Copy id
       run: |
         ssh-copy-id ansible@3.86.86.112
