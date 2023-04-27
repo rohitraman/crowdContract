@@ -1,8 +1,8 @@
 [local] 
-3.82.189.67 ansible_ssh_user=ansible ansible_ssh_pass=ansible ansible_sudo_pass=ansible
+3.82.189.67 ansible_ssh_user=ansible ansible_ssh_pass=ansible ansible_sudo_pass=ansible ansible_python_interpreter=/usr/bin/python3
 
 [all:vars]
-ansible_python_interpreter=/opt/hostedtoolcache/Python/3.11.3/x64/bin/python3
+ansible_python_interpreter=/usr/bin/python3
 # [local]
 # localhost ansible_connection=local
 
