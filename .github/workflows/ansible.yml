@@ -49,20 +49,12 @@ jobs:
         playbook: deployToAws.yaml
         # Optional, directory where playbooks live
         directory: /home/runner/work/crowdContract-1/crowdContract-1/playbooks
-        # Optional, SSH private key
-#         key: ${{secrets.AWS_SSH_KEY}}
-        
-        # Optional, SSH known hosts file content
-        # known_hosts: |
-          # example.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
-        # Optional, encrypted vault password
-        vault_password: ${{secrets.VAULT_PASSWORD}}
-        # Optional, galaxy requirements filepath
-#         requirements: galaxy-requirements.yml
-        # Optional, additional flags to pass to ansible-playbook
-        options: |
-          --inventory ./hosts.yaml
+        inventory: |
+          [local] 
+          ${{secrets.AWS_IP}} ansible_ssh_user=${{secrets.ANSIBLE_SSH_USERNAME}} ansible_ssh_pass=${{secrets.ANSIBLE_SSH_PASS}} ansible_sudo_pass=${{secrets.ANSIBLE_SUDO_PASS}} ansible_python_interpreter=/usr/bin/python3
 
+          [all:vars]
+          ansible_python_interpreter=/usr/bin/python3
   # notify:
   #   runs-on: ubuntu-latest
 
