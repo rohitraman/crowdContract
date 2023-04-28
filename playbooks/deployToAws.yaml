@@ -34,7 +34,8 @@
           - openshift
           - pyyaml
           - kubernetes 
-          
+    - name: Check
+      shell: echo "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
     - name: Get a list of all pods from any namespace
       environment:
         K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
