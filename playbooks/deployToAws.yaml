@@ -1,12 +1,6 @@
 ---
 - hosts: local
   tasks:
-#     - name: Pull Docker image
-#       docker_image:
-#         name: prathvirajbn/crowdcontract-frontend
-#         tag: latest
-#         source: pull
-    
     - name: install pre-requisites
       pip:
         name:
@@ -21,31 +15,7 @@
         state: present
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
         definition: "{{ lookup('file', '../deployments/deployment.yaml')}}"
-#         definition:
-#           kind: Deployment
-#           apiVersion: apps/v1
-#           metadata:
-#             name: crowdcontract-frontend
-#             namespace: default
-#           spec:
-#             replicas: 2
-#             selector:
-#               matchLabels:
-#                 app: crowdcontract-frontend
-#             template:
-#               metadata:
-#                 labels:
-#                   app: crowdcontract-frontend
-#               spec:
-#                 containers:
-#                 - name: crowdcontract-frontend
-#                   image: prathvirajbn/crowdcontract-frontend:latest
-#                   env:
-#                   - name: DOCKER_DEFAULT_PLATFORM
-#                     value: "linux/amd64"
-#                   ports:
-#                   - containerPort: 80
-#                     targetPort: 3000
+
     - name: Create a service object
       environment:
           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
@@ -53,25 +23,4 @@
         state: present
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
         definition: "{{ lookup('file', '../deployments/load-balancer.yaml')}}"
-#         definition:
-#           apiVersion: v1
-#           kind: Service
-#           metadata:
-#             name: load-balancer
-#             namespace: default
-#             labels:
-#               app: crowdcontract-frontend
-#           spec:
-#             type: LoadBalancer
-#             ports:
-#             - port: 80
-#               targetPort: 80
-#               protocol: TCP
-#               nodePort: 31001
-#             selector:
-#               app: crowdcontract-frontend
-# For k8s
-# python >= 3.6
-# kubernetes >= 12.0.0
-# PyYAML >= 3.11
-# jsonpatch
+        
