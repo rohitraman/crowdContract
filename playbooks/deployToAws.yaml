@@ -29,7 +29,7 @@
 #       raw: apt -y update && apt install -y python
 #       when: check_python.rc != 0
     - name: Ensure running application
-      k8s_facts:
+      k8s_info:
         namespace: sample
         kind: Pod
         label_selectors:
