@@ -40,7 +40,7 @@
       environment:
         K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       kubernetes.core.k8s_info:
-        kind: Pod
+        kind: Service
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       register: pod_list
 
