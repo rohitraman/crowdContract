@@ -29,7 +29,7 @@
 #       raw: apt -y update && apt install -y python
 #       when: check_python.rc != 0
     - name: Setup Kubernetes Cluster
-      shell: "kubectl get services"
+      shell: "sudo kubectl get services"
 
 # For k8s
 # python >= 3.6
