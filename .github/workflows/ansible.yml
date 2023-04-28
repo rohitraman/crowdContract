@@ -1,15 +1,9 @@
 name: Ansible deploy
-# on: 
-#   workflow_run:
-#     workflows: ["testAndCreateDockerImage"]
-#     types:
-#       - completed
+
 env:
   "ANSIBLE_CONFIG" : /home/runner/work/crowdContract-1/crowdContract-1/ansible.cfg
 on:
   push:
-#     paths:
-#       - '/'
     branches:
       - main
 jobs:
@@ -29,26 +23,14 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install boto3 botocore
-#     - name: Create SSH key
-#       run: |
-#         mkdir -p ~/.ssh/
-#         echo "$SSH_PRIVATE_KEY" > ../private.key
-#         sudo chmod 600 ../private.key
-#         echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-#         ssh -o StrictHostKeyChecking=no ansible@3.82.189.67 'sudo docker pull ubuntu'
-#       env:
-#           SSH_PRIVATE_KEY: ${{secrets.AWS_SSH_KEY}}
-#           SSH_KNOWN_HOSTS: ${{secrets.AWS_KNOWN_HOSTS}}
-#           SSH_KEY_PATH: ${{ github.workspace }}/../private.key
+
     - name: Run playbook
       uses: dawidd6/action-ansible-playbook@v2
       env:
             PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY  }}
             K8S_AUTH_KUBECONFIG: ${{secrets.KUBE_CONFIG_DATA}}
       with:
-        # Required, playbook filepath
         playbook: deployToAws.yaml
-        # Optional, directory where playbooks live
         directory: /home/runner/work/crowdContract-1/crowdContract-1/playbooks
         inventory: |
           [local] 
@@ -56,32 +38,3 @@ jobs:
 
           [all:vars]
           ansible_python_interpreter=/usr/bin/python3
-  # notify:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #   - uses: actions/checkout@v1
-  #   - name: Set up Python 3.7
-  #     uses: actions/setup-python@v1
-  #     with:
-  #       python-version: 3.7
-  #   - name: Install dependencies
-  #     run: |
-  #       python -m pip install --upgrade pip
-  #       pip install ansible==2.9.2 requests
-  #       ansible-galaxy collection install amazon.aws
-        
-  #  - name: set ansible config secrets
-  #    env:
-  #      ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
-  #      ANSIBLE_SSH_KEY: ${{ secrets.ANSIBLE_SSH_KEY }}
-  #    run: |
-  #      echo "$ANSIBLE_VAULT_PASSWORD" > .ansible-vault-password
-  #      mkdir .ssh
-  #      echo "$ANSIBLE_SSH_KEY" > .ssh/ansiblekey
-  #      chmod 600 .ssh/ansiblekey
-  #  - name: run playbook
-  #    # env:
-  #    #   DO_API_KEY: ${{ secrets.DO_API_KEY }}
-  #    run: |
-  #      ansible-playbook playbooks/ec2-provision.yml --ask-vault-pass --tags create_ec2
