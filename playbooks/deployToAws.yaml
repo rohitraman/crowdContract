@@ -54,6 +54,6 @@
       environment:
           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       shell: "kubectl port-forward --address 0.0.0.0 --kubeconfig {{ lookup('env', 'K8S_AUTH_KUBECONFIG')}} {{item}} 8900:80 -n default &"
-      when: '"frontend" in {{item}}'
+      when: '"frontend" in item'
       loop: "{{ pod_list | community.general.json_query('resources[*].metadata.name') }}"
       
