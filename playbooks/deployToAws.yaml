@@ -34,7 +34,10 @@
           - openshift
           - pyyaml
           - kubernetes 
+          
     - name: Get a list of all pods from any namespace
+      environment:
+        K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       kubernetes.core.k8s_info:
         kind: Pod
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
