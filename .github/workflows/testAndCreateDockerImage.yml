@@ -18,9 +18,6 @@ jobs:
         with:
           node-version: 16
       - name: build frontend
-        env:
-          VITE_API_URL: load-balancer-backend:5051
-          VITE_AES_SECRET_KEY: 2a953982e33475be953e3cadaa2b11e15a7790299e5be36e4022b1e84d3d495a273817b18a85246d6414e62d062d633654ecd3876841b714e78d6765f8648006
         run: |
           cd client
           npm install
