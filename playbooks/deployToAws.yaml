@@ -43,7 +43,15 @@
         kind: Service
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       register: pod_list
-      
+   - name: Create a k8s namespace
+     environment:
+      K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+     kubernetes.core.k8s:
+        name: testing
+        api_version: v1
+        kind: Namespace
+        state: present   
+        kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
     - name: Create a Service object from an inline definition
       environment:
           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
