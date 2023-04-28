@@ -1,11 +1,11 @@
 ---
 - hosts: local
   tasks:
-    - name: Pull Docker image
-      docker_image:
-        name: prathvirajbn/crowdcontract-frontend
-        tag: latest
-        source: pull
+#     - name: Pull Docker image
+#       docker_image:
+#         name: prathvirajbn/crowdcontract-frontend
+#         tag: latest
+#         source: pull
     
     # - name: Pull Docker image server
     #   docker_image:
@@ -13,22 +13,23 @@
     #     tag: latest
     #     source: pull
 
-    - name: Create Docker container
-      shell: "docker run -d -p 80:80 prathvirajbn/crowdcontract-frontend"
+#     - name: Create Docker container
+#       shell: "docker run -d -p 80:80 prathvirajbn/crowdcontract-frontend"
     
     # - name: Create Docker container server
     #   shell: "docker run -d -p 4002:4002 prathvirajbn/server"
     
-    - name: Check for Python
-      raw: test -e /usr/bin/python
-      changed_when: false
-      failed_when: false
-      register: check_python
+#     - name: Check for Python
+#       raw: test -e /usr/bin/python
+#       changed_when: false
+#       failed_when: false
+#       register: check_python
     
-    - name: Install Python
-      raw: apt -y update && apt install -y python
-      when: check_python.rc != 0
-
+#     - name: Install Python
+#       raw: apt -y update && apt install -y python
+#       when: check_python.rc != 0
+    -name: Setup Kubernetes Cluster
+     shell: "kubectl apply -f /home/runner/work/crowdContract-1/crowdContract-1/deployments/deployment.yaml
 
 # For k8s
 # python >= 3.6
