@@ -28,16 +28,10 @@
 #     - name: Install Python
 #       raw: apt -y update && apt install -y python
 #       when: check_python.rc != 0
-    - name: Ensure running application
-      k8s_info:
-        namespace: sample
+    - name: Get a list of all pods from any namespace
+      kubernetes.core.k8s_info:
         kind: Pod
-        label_selectors:
-          - app=sample-v1-app
       register: pod_list
-      until: pod_list.resources[0].status.phase == 'Running'
-      delay: 10
-      retries: 3
 
 # For k8s
 # python >= 3.6
