@@ -62,7 +62,6 @@ jobs:
         # Optional, additional flags to pass to ansible-playbook
         options: |
           --inventory ./hosts.yaml
-          --vault-password-file ./vault.yaml
 
   # notify:
   #   runs-on: ubuntu-latest
