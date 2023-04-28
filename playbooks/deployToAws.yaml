@@ -2,8 +2,6 @@
 - hosts: local
   become: true
   tasks:
-    - name: SSH into AWS
-      shell: "ssh -i ${PRIVATE_KEY} -o StrictHostKeyChecking=no ec2-user@3.86.86.112 'sudo docker pull ubuntu'"
     - name: Pull Docker image
       docker_image:
         name: prathvirajbn/crowdcontract-frontend
