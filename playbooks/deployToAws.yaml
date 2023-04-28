@@ -52,4 +52,4 @@
       
     - name: Print pod names
       debug:
-        msg: "pod_list: {{ pod_list | json_query('resources[*].metadata.name')  }} "    
+        msg: "pod_list: {{ pod_list ('resources[*].metadata.name')  }} "    
