@@ -1,11 +1,11 @@
 ---
 - hosts: local
   tasks:
-#     - name: Pull Docker image
-#       docker_image:
-#         name: prathvirajbn/crowdcontract-frontend
-#         tag: latest
-#         source: pull
+    - name: Pull Docker image
+      docker_image:
+        name: prathvirajbn/crowdcontract-frontend
+        tag: latest
+        source: pull
     
     # - name: Pull Docker image server
     #   docker_image:
