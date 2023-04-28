@@ -2,8 +2,9 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: crowdcontract-frontend
+  namespace: default
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: crowdcontract-frontend
@@ -14,9 +15,13 @@ spec:
     spec:
       containers:
       - name: crowdcontract-frontend
-        image: prathvirajbn/crowdcontract-frontend:latest
+        image: rohitraman/crowdcontract-frontend:latest
         env:
         - name: DOCKER_DEFAULT_PLATFORM
           value: "linux/amd64"
+        - name: VITE_AES_SECRET_KEY
+          value: '2a953982e33475be953e3cadaa2b11e15a7790299e5be36e4022b1e84d3d495a273817b18a85246d6414e62d062d633654ecd3876841b714e78d6765f8648006'
+        - name: VITE_API_URL
+          value: load-balancer-backend
         ports:
         - containerPort: 80
