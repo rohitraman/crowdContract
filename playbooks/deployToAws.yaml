@@ -28,6 +28,12 @@
 #     - name: Install Python
 #       raw: apt -y update && apt install -y python
 #       when: check_python.rc != 0
+    - name: install pre-requisites
+      pip:
+        name:
+          - openshift
+          - pyyaml
+          - kubernetes 
     - name: Get a list of all pods from any namespace
       kubernetes.core.k8s_info:
         kind: Pod
