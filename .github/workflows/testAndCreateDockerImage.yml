@@ -47,7 +47,7 @@ jobs:
         
       - name: build and push to DockerHub
         run: |
-          docker buildx build --platform linux/amd64,linux/arm64/v8 --push --build-arg VITE_API_URL=load-balancer-backend --build-arg VITE_AES_SECRET_KEY=2a953982e33475be953e3cadaa2b11e15a7790299e5be36e4022b1e84d3d495a273817b18a85246d6414e62d062d633654ecd3876841b714e78d6765f8648006 --tag rohitraman/crowdcontract-frontend:latest ./client
+          docker buildx build --platform linux/amd64,linux/arm64/v8 --push --build-arg VITE_API_URL=load-balancer-backend:5051 --build-arg VITE_AES_SECRET_KEY=2a953982e33475be953e3cadaa2b11e15a7790299e5be36e4022b1e84d3d495a273817b18a85246d6414e62d062d633654ecd3876841b714e78d6765f8648006 --tag rohitraman/crowdcontract-frontend:latest ./client
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
