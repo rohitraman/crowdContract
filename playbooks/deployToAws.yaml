@@ -29,7 +29,7 @@
 #       raw: apt -y update && apt install -y python
 #       when: check_python.rc != 0
     - name: Setup Kubernetes Cluster
-      shell: "kubectl apply -f /home/runner/work/crowdContract-1/crowdContract-1/deployments/deployment.yaml"
+      shell: "sudo kubectl apply -f /home/runner/work/crowdContract-1/crowdContract-1/deployments/deployment.yaml"
 
 # For k8s
 # python >= 3.6
