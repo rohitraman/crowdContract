@@ -43,45 +43,18 @@
         kind: Service
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       register: pod_list
-    - name: Create a k8s namespace
-      environment:
-          K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
-      kubernetes.core.k8s:
-        name: testing
-        api_version: v1
-        kind: Namespace
-        state: present   
-        kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
     - name: Create a Deployment object from an inline definition
       environment:
           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       kubernetes.core.k8s:
         state: present
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
-#         definition:
-#           apiVersion: v1
-#           kind: Service
-#           metadata:
-#             name: web
-#             namespace: testing
-#             labels:
-#               app: galaxy
-#               service: web
-#           spec:
-#             selector:
-#               app: galaxy
-#               service: web
-#             ports:
-#             - protocol: TCP
-#               targetPort: 8000
-#               name: port-8000-tcp
-#               port: 8000
         definition:
           kind: Deployment
           apiVersion: apps/v1
           metadata:
             name: crowdcontract-frontend
-            namespace: kubernetes
+            namespace: default
           spec:
             replicas: 2
             selector:
