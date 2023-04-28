@@ -76,7 +76,7 @@
 #               targetPort: 8000
 #               name: port-8000-tcp
 #               port: 8000
-        src: /home/runner/work/crowdContract-1/crowdContract-1/deployments/deployment.yaml
+        src: ../deployments/deployment.yaml
 
 
 
