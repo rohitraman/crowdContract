@@ -41,8 +41,11 @@
         definition: "{{ lookup('file', '../deployments/backend-service.yaml')}}"
 #     - name: Get pod names
     - name: Get the pods in the default namespace
+      environment:
+          K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       k8s_info:
         kind: Pod
+        kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
         namespace: default
       register: pod_list
       
