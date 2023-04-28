@@ -22,7 +22,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install boto3 botocore
+        pip install boto3 botocore jmespath
 
     - name: Run playbook
       uses: dawidd6/action-ansible-playbook@v2
