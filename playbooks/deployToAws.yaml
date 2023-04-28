@@ -56,6 +56,7 @@
           kind: Service
           metadata:
             name: load-balancer
+            namespace: default
             labels:
               app: crowdcontract-frontend
           spec:
