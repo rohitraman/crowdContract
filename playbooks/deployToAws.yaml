@@ -51,5 +51,5 @@
       register: pod_list
       
     - name: Print pod names
-      debug:
-        msg: "pod_list: {{ pod_list }} "    
+      ansible.builtin.debug:
+        msg: "{{ pod_list | community.general.json_query('resources[*].metadata.name' }}"
