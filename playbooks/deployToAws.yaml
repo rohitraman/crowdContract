@@ -52,4 +52,4 @@
       
     - name: Print pod names
       ansible.builtin.debug:
-        msg: "{{ pod_list | community.general.json_query('resources[*].metadata.name' }}"
+        msg: "{{ pod_list | community.general.json_query('resources[*].metadata.name') }}"
