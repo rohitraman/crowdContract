@@ -6,7 +6,7 @@ metadata:
   labels:
     app: crowdcontract-backend
 spec:
-  # type: LoadBalancer
+  type: LoadBalancer
   ports:
   - port: 5051
     targetPort: 5051
