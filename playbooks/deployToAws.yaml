@@ -6,7 +6,8 @@
         name:
           - openshift
           - pyyaml
-          - kubernetes 
+          - kubernetes
+          - jmespath
 
     - name: Create a Frontend Deployment object from an inline definition
       environment:
