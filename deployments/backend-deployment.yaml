@@ -1,0 +1,33 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: crowdcontract-backend
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: crowdcontract-backend
+  template:
+    metadata:
+      labels:
+        app: crowdcontract-backend
+    spec:
+      containers:
+      - name: crowdcontract-backend
+        image: prathvirajbn/crowdcontract-backend:latest
+        env:
+        - name: DOCKER_DEFAULT_PLATFORM
+          value: "linux/amd64"
+        - name: MONGO_URI
+          value: "mongodb+srv://prath:1234@crowdcontract.ji7u87b.mongodb.net/crowdContract"
+        - name: JWT_SECRET_KEY
+          value: '7de4afd53ba6eae584e0b6281bea2030d99a5971c6585a2b93ddc206dcff271651b44472cfb54acf01cb76b6eb8a2d9caa0251a3a40e7e666475822a11c7ce89'
+        - name: AES_SECRET_KEY
+          value: '2a953982e33475be953e3cadaa2b11e15a7790299e5be36e4022b1e84d3d495a273817b18a85246d6414e62d062d633654ecd3876841b714e78d6765f8648006'
+        - name: PORT
+          value: "5051"
+        - name: SALT_ROUNDS
+          value: "5"
+        ports:
+        - containerPort: 5051

@@ -42,7 +42,7 @@ function Payment() {
                   
                 const username = user["name"];
 
-                fetch("http://localhost:5051/api/users/getPremium", {
+                fetch(import.meta.env.VITE_API_URL + "/api/users/getPremium", {
                   method: "POST",
                   body: JSON.stringify({
                     userName: username,

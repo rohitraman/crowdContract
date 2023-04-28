@@ -13,7 +13,7 @@ function Login() {
 
 
     const handleLogin = () => {
-        fetch("http://localhost:5051/api/users/login", {
+        fetch(import.meta.env.VITE_API_URL + "/api/users/login", {
             method: "POST",
             body : JSON.stringify({
                 name: userName,
