@@ -37,7 +37,7 @@
     - name: Get a list of all pods from any namespace
       kubernetes.core.k8s_info:
         kind: Pod
-        kubeconfig: ${K8S_AUTH_KUBECONFIG}
+        kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       register: pod_list
 
 # For k8s
