@@ -8,7 +8,7 @@
           - pyyaml
           - kubernetes 
 
-    - name: Create a Deployment object from an inline definition
+    - name: Create a Frontend Deployment object from an inline definition
       environment:
           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       kubernetes.core.k8s:
@@ -16,11 +16,26 @@
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
         definition: "{{ lookup('file', '../deployments/deployment.yaml')}}"
 
-    - name: Create a service object
+    - name: Create a Frontend service object
       environment:
           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       kubernetes.core.k8s:
         state: present
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
         definition: "{{ lookup('file', '../deployments/load-balancer.yaml')}}"
-        
+     
+    - name: Create a Frontend Deployment object from an inline definition
+      environment:
+          K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+      kubernetes.core.k8s:
+        state: present
+        kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+        definition: "{{ lookup('file', '../deployments/backend-deployment.yaml')}}"
+
+    - name: Create a Frontend service object
+      environment:
+          K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+      kubernetes.core.k8s:
+        state: present
+        kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+        definition: "{{ lookup('file', '../deployments/backend-service.yaml')}}"
