@@ -1,6 +1,5 @@
 ---
 - hosts: local
-  become: true
   tasks:
     - name: Pull Docker image
       docker_image:
