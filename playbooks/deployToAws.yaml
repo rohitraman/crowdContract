@@ -43,6 +43,32 @@
         kind: Service
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       register: pod_list
+      
+    - name: Create a Service object from an inline definition
+      environment:
+          K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+      kubernetes.core.k8s:
+        state: present
+        kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: web
+            namespace: testing
+            labels:
+              app: galaxy
+              service: web
+          spec:
+            selector:
+              app: galaxy
+              service: web
+            ports:
+            - protocol: TCP
+              targetPort: 8000
+              name: port-8000-tcp
+              port: 8000
+
 
 # For k8s
 # python >= 3.6
