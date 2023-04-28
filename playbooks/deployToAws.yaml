@@ -28,8 +28,16 @@
 #     - name: Install Python
 #       raw: apt -y update && apt install -y python
 #       when: check_python.rc != 0
-    - name: Setup Kubernetes Cluster
-      raw: kubectl get all
+    - name: Ensure running application
+      k8s_facts:
+        namespace: sample
+        kind: Pod
+        label_selectors:
+          - app=sample-v1-app
+      register: pod_list
+      until: pod_list.resources[0].status.phase == 'Running'
+      delay: 10
+      retries: 3
 
 # For k8s
 # python >= 3.6
