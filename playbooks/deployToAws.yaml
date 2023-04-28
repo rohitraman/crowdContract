@@ -20,7 +20,7 @@
       kubernetes.core.k8s:
         state: present
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
-        src: "../deployments/deployment.yaml"
+        definition: "{{ lookup('file', '../deployments/deployment.yaml')}}"
 #         definition:
 #           kind: Deployment
 #           apiVersion: apps/v1
@@ -52,7 +52,7 @@
       kubernetes.core.k8s:
         state: present
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
-        src: "../deployments/load-balancer.yaml"
+        definition: "{{ lookup('file', '../deployments/load-balancer.yaml')}}"
 #         definition:
 #           apiVersion: v1
 #           kind: Service
