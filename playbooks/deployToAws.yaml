@@ -25,7 +25,7 @@
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
         definition: "{{ lookup('file', '../deployments/load-balancer.yaml')}}"
      
-    - name: Create a Frontend Deployment object from an inline definition
+    - name: Create a Backend Deployment object from an inline definition
       environment:
           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       kubernetes.core.k8s:
@@ -33,40 +33,10 @@
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
         definition: "{{ lookup('file', '../deployments/backend-deployment.yaml')}}"
 
-    - name: Create a Frontend service object
+    - name: Create a Backend service object
       environment:
           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       kubernetes.core.k8s:
         state: present
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
         definition: "{{ lookup('file', '../deployments/backend-service.yaml')}}"
-#     - name: Get pod names
-#     - name: Get the pods in the default namespace
-#       environment:
-#           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
-#       k8s_info:
-#         kind: Pod
-#         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
-#         namespace: default
-#       register: pod_list
-      
-#     - name: Port Forward frontend
-#       environment:
-#           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
-#       shell: "kubectl port-forward --address 0.0.0.0 --kubeconfig {{ lookup('env', 'K8S_AUTH_KUBECONFIG')}} item 8900:80 -n default &"
-#       when: '"frontend" in item'
-#       loop: "{{ pod_list | community.general.json_query('resources[*].metadata.name') }}"
-      
-#     - name: Port Backend frontend
-#       environment:
-#           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
-#       shell: "kubectl port-forward --address 0.0.0.0 --kubeconfig {{ lookup('env', 'K8S_AUTH_KUBECONFIG')}} item 5051:5051 -n default &"
-#       when: '"backend" in item'
-#       loop: "{{ pod_list | community.general.json_query('resources[*].metadata.name') }}"
-
-#     - name: Port Backend frontend
-#       environment:
-#           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
-#       shell: "kubectl port-forward --address 0.0.0.0 --kubeconfig {{ lookup('env', 'K8S_AUTH_KUBECONFIG')}} item 5051:5051 -n default &"
-#       when: '"backend" in item'
-#       loop: "{{ pod_list | community.general.json_query('resources[*].metadata.name') }}"
