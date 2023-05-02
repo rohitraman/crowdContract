@@ -8,23 +8,55 @@
           - pyyaml
           - kubernetes
           - jmespath
-
-    - name: Create a Frontend Deployment object from an inline definition
+    
+    - name: Create Mongo DB Volume
       environment:
           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       kubernetes.core.k8s:
         state: present
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
-        definition: "{{ lookup('file', '../deployments/deployment.yaml')}}"
+        definition: "{{ lookup('file', '../deployments/db-volumes.yaml')}}"
 
-    - name: Create a Frontend service object
+    - name: Create Mongo DB Volume Claim
       environment:
           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
       kubernetes.core.k8s:
         state: present
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
-        definition: "{{ lookup('file', '../deployments/load-balancer.yaml')}}"
-     
+        definition: "{{ lookup('file', '../deployments/db-volume-claim.yaml')}}"
+        
+    - name: Create DB Secrets
+      environment:
+          K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+      kubernetes.core.k8s:
+        state: present
+        kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+        definition: "{{ lookup('file', '../deployments/db-secrets.yaml')}}"
+
+    - name: Create DB Deployment
+      environment:
+          K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+      kubernetes.core.k8s:
+        state: present
+        kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+        definition: "{{ lookup('file', '../deployments/db-deployment.yaml')}}"
+    
+    - name: Create DB Service
+      environment:
+          K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+      kubernetes.core.k8s:
+        state: present
+        kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+        definition: "{{ lookup('file', '../deployments/db-service.yaml')}}"
+        
+    - name: Create Backend Secret
+      environment:
+          K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+      kubernetes.core.k8s:
+        state: present
+        kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+        definition: "{{ lookup('file', '../deployments/backend-secret.yaml')}}"
+ 
     - name: Create a Backend Deployment object from an inline definition
       environment:
           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
@@ -40,3 +72,19 @@
         state: present
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
         definition: "{{ lookup('file', '../deployments/backend-service.yaml')}}"
+ 
+    - name: Create a Frontend Deployment object from an inline definition
+      environment:
+          K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+      kubernetes.core.k8s:
+        state: present
+        kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+        definition: "{{ lookup('file', '../deployments/deployment.yaml')}}"
+
+    - name: Create a Frontend service object
+      environment:
+          K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+      kubernetes.core.k8s:
+        state: present
+        kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+        definition: "{{ lookup('file', '../deployments/load-balancer.yaml')}}"
