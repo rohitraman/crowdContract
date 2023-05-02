@@ -56,7 +56,12 @@
         state: present
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
         definition: "{{ lookup('file', '../deployments/backend-secret.yaml')}}"
- 
+    
+    - name: Delete previous backend deployment
+      environment:
+          K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+      shell: kubectl delete deploy crowdcontract-backend --kubeconfig "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+        
     - name: Create a Backend Deployment object from an inline definition
       environment:
           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
@@ -72,7 +77,12 @@
         state: present
         kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
         definition: "{{ lookup('file', '../deployments/backend-service.yaml')}}"
- 
+        
+    - name: Delete previous frontend deployment
+      environment:
+          K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+      shell: kubectl delete deploy crowdcontract-frontend --kubeconfig "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
+      
     - name: Create a Frontend Deployment object from an inline definition
       environment:
           K8S_AUTH_KUBECONFIG: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG')}}"
