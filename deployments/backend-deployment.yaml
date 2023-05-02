@@ -15,19 +15,34 @@ spec:
     spec:
       containers:
       - name: crowdcontract-backend
-        image: prathvirajbn/crowdcontract-backend:latest
+        image: rohitraman/crowdcontract-backend:latest
         env:
         - name: DOCKER_DEFAULT_PLATFORM
           value: "linux/amd64"
         - name: MONGO_URI
-          value: "mongodb+srv://prath:1234@crowdcontract.ji7u87b.mongodb.net/crowdContract"
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: MONGO_URI
         - name: JWT_SECRET_KEY
-          value: '7de4afd53ba6eae584e0b6281bea2030d99a5971c6585a2b93ddc206dcff271651b44472cfb54acf01cb76b6eb8a2d9caa0251a3a40e7e666475822a11c7ce89'
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: JWT_SECRET_KEY
         - name: AES_SECRET_KEY
-          value: '2a953982e33475be953e3cadaa2b11e15a7790299e5be36e4022b1e84d3d495a273817b18a85246d6414e62d062d633654ecd3876841b714e78d6765f8648006'
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: AES_SECRET_KEY
         - name: PORT
-          value: "5051"
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: PORT
         - name: SALT_ROUNDS
-          value: "5"
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: SALT_ROUNDS
         ports:
         - containerPort: 5051
