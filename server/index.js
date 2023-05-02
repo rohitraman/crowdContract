@@ -29,8 +29,7 @@ const logger = createLogger({
 // console.log(getSecretsFromAwsSecretManager("MONGO_URI"))
 //Check to make sure header is not undefined, if so, return Forbidden (403)
 const checkToken = (req, res, next) => {
-  console.log(req.originalUrl);
-  if (req.originalUrl === "/api/users/login" || req.originalUrl === "/api/users" || req.originalUrl === "/api/users/add") {
+  if (req.originalUrl === "/api/users/login") {
     console.log("Surpass JWT for login");
     return next();
   }
@@ -175,7 +174,6 @@ const startServer = async () => {
         )
       );
   } catch (e) {
-    console.log(process.env.MONGO_URI);
     console.log(e);
     process.exit(1);
   }
