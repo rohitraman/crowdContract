@@ -5,8 +5,8 @@ on:
     paths:
        - 'server/**'
     branches:
-      - test
-      - main
+      - "test"
+      - "main"
 jobs:
   test-database:
     runs-on: ubuntu-latest
