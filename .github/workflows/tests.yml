@@ -2,8 +2,8 @@ name: run-test-cases
 run-name: run-test-cases
 on:
   push:
-    paths:
-       - 'server/**'
+#    paths:
+#      - 'server/**'
     branches:
       - test
       - main
