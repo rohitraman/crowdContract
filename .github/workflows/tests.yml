@@ -1,0 +1,28 @@
+name: testAndCreateDockerImageBackend
+run-name: testAndCreateDockerImageBackend
+on:
+  push:
+    paths:
+       - 'server/**'
+    branches:
+      - test
+      - main
+jobs:
+  test-database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: npm install, build, and test
+        run: |
+          pwd
+          npm test-db
+      - name: Archive logs as artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: db-test-logs
+          path: |
+             ${GITHUB_WORKSPACE}/server/logs/service.log
+            
+
+    

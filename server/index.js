@@ -7,25 +7,14 @@ const cors = require("cors");
 const app = express();
 var CryptoJS = require("crypto-js");
 const getSecretsFromAwsSecretManager = require("./utils/getSecrets.js");
+const logger = require("./utils/logger.js");
 
 dotenv.config();
 app.use(express.json());
 app.use(cors());
 
 const { User } = require("./models/UserModel");
-const { createLogger, format, transports } = require("winston");
-const logger = createLogger({
-  level: "debug",
-  format: format.combine(
-    format.timestamp({ format: `YYYY-MM-DDTHH:mm:ss.SSSZ` }),
-    format.json()
-  ),
-  transports: [
-    new transports.File({
-      filename: "./logs/service.log",
-    }),
-  ],
-});
+
 // console.log(getSecretsFromAwsSecretManager("MONGO_URI"))
 //Check to make sure header is not undefined, if so, return Forbidden (403)
 const checkToken = (req, res, next) => {
