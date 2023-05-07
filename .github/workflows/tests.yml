@@ -13,17 +13,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: npm install, build, and test
+      - name: npm install and test-db
         run: |
           cd server
           npm i
+          # npm run dev &
           npm run test-db
+          npm run test-api
       - name: Archive logs as artifacts
         uses: actions/upload-artifact@v3
         with:
           name: db-test-logs
           path: |
              ${GITHUB_WORKSPACE}/server/logs/service.log
-            
-
-    
