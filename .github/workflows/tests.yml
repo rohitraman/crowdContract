@@ -5,8 +5,8 @@ on:
     paths:
        - 'server/**'
     branches:
-      - "test"
-      - "main"
+      - test
+      - main
 jobs:
   test-database:
     runs-on: ubuntu-latest
@@ -15,8 +15,9 @@ jobs:
         uses: actions/checkout@v3
       - name: npm install, build, and test
         run: |
+          cd server 
           pwd
-          npm test-db
+          npm run test-db
       - name: Archive logs as artifacts
         uses: actions/upload-artifact@v3
         with:
