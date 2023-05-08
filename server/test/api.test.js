@@ -12,7 +12,7 @@ describe("API Test Suite", () => {
     };
 
     const response = await request(app)
-      .post("/api/users/login")
+      .post("http://localhost:5051/api/users/login")
       .send(loginData);
     Object.keys(response.req).map((key) => {
       console.log(key);
@@ -28,7 +28,7 @@ describe("API Test Suite", () => {
       "userName" : "Prathviraj B N"
     }
     const response = await request(app)
-      .post("/api/users/getUser")
+      .post("http://localhost:5051/api/users/getUser")
       .send(reqData)
       .set("Authorization", `Bearer ${jwtToken}`);
     expect(response.status).toBe(200);
