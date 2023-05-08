@@ -22,6 +22,7 @@ jobs:
                 AES_SECRET_KEY='2a953982e33475be953e3cadaa2b11e15a7790299e5be36e4022b1e84d3d495a273817b18a85246d6414e62d062d633654ecd3876841b714e78d6765f8648006'
                 SALT_ROUNDS=5" > .env
           npm i
+          curl http://localhost:5051 -I
           # npm run dev &
           npm run test-db
           npm run test-api
