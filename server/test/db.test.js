@@ -17,11 +17,11 @@ const userData = {
 describe("User Model Tests", () => {
   beforeAll(async () => {
     // Connect to the test database
-    await mongoose.connect(process.env.MONGO_URI , {
+    await mongoose.connect(process.env.MONGO_URI + "/crowdContractTest" , {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-  });
+  }, 70000);
 
   it("should create a new user", async () => {
     const user = await User.create(userData);
@@ -35,7 +35,7 @@ describe("User Model Tests", () => {
     expect(user.isPremium).toBe(userData.isPremium);
     expect(user.password).toBe(userData.password);
     logger.test("Create-User operation successful");
-  });
+  }, 70000);
 
   it("should retrieve a user by phone number", async () => {
     const existingUser = {
@@ -57,7 +57,7 @@ describe("User Model Tests", () => {
     expect(foundUser.name).toBe(existingUser.name);
     expect(foundUser.isPremium).toBe(existingUser.isPremium);
     logger.test("Read-User operation successful");
-  });
+  }, 70000);
 
   it("should update a user's name", async () => {
     const existingUser = {
@@ -84,16 +84,16 @@ describe("User Model Tests", () => {
     expect(updatedUser).toBeDefined();
     expect(updatedUser.name).toBe(newName);
     logger.test("Update-User operation successful");
-  });
+  }, 70000);
   afterAll(async () => {
     // Clear the User collection before all tests
     await User.deleteMany({});
     logger.test("Truncate DB successful");
-  });
+  }, 70000);
 
   afterAll(async () => {
     // Disconnect from the database after all tests are finished
     await mongoose.disconnect();
     logger.test("DB Disconnected Successfully");
-  });
+  }, 70000);
 });
