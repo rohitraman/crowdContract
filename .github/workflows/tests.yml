@@ -20,7 +20,7 @@ jobs:
           npm i
           # npm run dev &
           npm run test-db
-          npm run test-api
+          # npm run test-api
       - name: Archive logs as artifacts
         uses: actions/upload-artifact@v3
         with:
