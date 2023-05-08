@@ -6,7 +6,7 @@ import { logo, menu, search, thirdweb } from "../assets";
 
 import { navlinks } from "../constants";
 import { useStateContext } from "../context";
-
+import CryptoJS from "crypto-js";
 
 
 const NavBar = () => {
@@ -37,8 +37,8 @@ const NavBar = () => {
           title={address ? "create a campaign" : "connect"}
           styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
           handleClick={() => {
-            const data_decrypted = AES.decrypt(localStorage['user'], import.meta.env.VITE_AES_SECRET_KEY);
-            const isPremium = JSON.parse(data_decrypted.toString(cryptoJs.enc.Utf8))['isPremium'];
+            const data_decrypted = CryptoJS.AES.decrypt(localStorage['user'], import.meta.env.VITE_AES_SECRET_KEY);
+            const isPremium = JSON.parse(data_decrypted.toString(CryptoJS.enc.Utf8))['isPremium'];
             if(!isPremium) navigate("payment");
             else if (address) navigate("create-campaign");
             else connect();
