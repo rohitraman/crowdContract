@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node index.js",
     "test-db": "jest test/db.test.js",
-    "test-api": "jest test/api.test.js"
+    "test-api": "jest test/api.test.js --forceExit"
   },
   "author": "",
   "license": "ISC",
