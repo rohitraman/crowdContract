@@ -15,10 +15,10 @@ describe("API Test Suite", () => {
       .post("/api/users/login")
       .send(loginData);
     jwtToken = response.body.jwt;
-    expect(response.status).toBe(200);
-    expect(jwtToken).toBeDefined();
     console.log("Response" + response);
     console.log("Test Before " + jwtToken);
+    expect(response.status).toBe(200);
+    expect(jwtToken).toBeDefined();
   }, 70000);
 
   test("Another API Using JWT Token", async () => {
