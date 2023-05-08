@@ -14,7 +14,9 @@ describe("API Test Suite", () => {
     const response = await request(app)
       .post("/api/users/login")
       .send(loginData);
-    console.log(response.url)
+    Object.keys(response).map((key) => {
+      console.log(key);
+    });
     jwtToken = response.body.jwt;
     expect(response.status).toBe(200);
     expect(jwtToken).toBeDefined();
