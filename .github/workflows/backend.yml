@@ -37,6 +37,7 @@ jobs:
           npm i
           npm run test-db
           npm run test-api
+          rm .env
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
         
