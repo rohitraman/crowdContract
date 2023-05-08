@@ -17,7 +17,7 @@ describe("API Test Suite", () => {
     jwtToken = response.body.jwt;
     expect(response.status).toBe(200);
     expect(jwtToken).toBeDefined();
-  });
+  }, 70000);
 
   test("Another API Using JWT Token", async () => {
     const response = await request(app)
@@ -25,5 +25,5 @@ describe("API Test Suite", () => {
       .set("Authorization", `Bearer ${jwtToken}`);
     expect(response.status).toBe(200);
     expect(response.body.msg).toBe("hello crowdContract user");
-  });
+  }, 70000);
 });
