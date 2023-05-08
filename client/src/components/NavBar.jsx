@@ -8,7 +8,6 @@ import { navlinks } from "../constants";
 import { useStateContext } from "../context";
 import CryptoJS from "crypto-js";
 
-
 const NavBar = () => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState("dashboard");
