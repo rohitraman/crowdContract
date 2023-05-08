@@ -12,12 +12,8 @@ describe("API Test Suite", () => {
     };
 
     const response = await request(app)
-      .post("http://localhost:5051/api/users/login")
+      .post("/api/users/login")
       .send(loginData);
-    Object.keys(response.req).map((key) => {
-      console.log(key);
-    });
-    console.log(response.req.path)
     jwtToken = response.body.jwt;
     expect(response.status).toBe(200);
     expect(jwtToken).toBeDefined();
@@ -28,7 +24,7 @@ describe("API Test Suite", () => {
       "userName" : "Prathviraj B N"
     }
     const response = await request(app)
-      .post("http://localhost:5051/api/users/getUser")
+      .post("/api/users/getUser")
       .send(reqData)
       .set("Authorization", `Bearer ${jwtToken}`);
     expect(response.status).toBe(200);
