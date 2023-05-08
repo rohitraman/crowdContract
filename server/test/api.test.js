@@ -20,10 +20,14 @@ describe("API Test Suite", () => {
   }, 70000);
 
   test("Another API Using JWT Token", async () => {
+    const reqData = {
+      "userName" : "Prathviraj B N"
+    }
     const response = await request(app)
-      .get("/api/")
+      .post("/api/users/getUser")
+      .send(reqData)
       .set("Authorization", `Bearer ${jwtToken}`);
     expect(response.status).toBe(200);
-    expect(response.body.msg).toBe("hello crowdContract user");
+    expect(response.body.name).toBe("Prathviraj B N");
   }, 70000);
 });
