@@ -15,6 +15,7 @@ describe("API Test Suite", () => {
       .post("/api/users/login")
       .send(loginData);
     jwtToken = response.body.jwt;
+    console.log(jwtToken);
     expect(response.status).toBe(200);
     expect(jwtToken).toBeDefined();
   }, 70000);
@@ -27,6 +28,7 @@ describe("API Test Suite", () => {
       .post("/api/users/getUser")
       .send(reqData)
       .set("Authorization", `Bearer ${jwtToken}`);
+    console.log(jwtToken)
     expect(response.status).toBe(200);
     expect(response.body.name).toBe("Prathviraj B N");
   }, 70000);
