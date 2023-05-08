@@ -19,41 +19,51 @@ const { User } = require("./models/UserModel");
 //Check to make sure header is not undefined, if so, return Forbidden (403)
 const checkToken = (req, res, next) => {
   if (req.originalUrl === "/api/users/login") {
-    console.log("Surpass JWT for login");
+    logger.info("Surpass JWT for login");
     return next();
   }
 
   const header = req.headers["authorization"];
+  logger.debug("Header of request is " + header);
 
-  if (typeof header !== "undefined") {
-    const bearer = header.split(" ");
-    const token = bearer[1];
-    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, authorizedData) => {
-      if (err) {
-        //If error send Forbidden (403)
-        console.log("ERROR: Could not connect to the protected route");
-        res.sendStatus(403);
-      } else {
-        //If token is successfully verified, we can send the autorized data
-        req.token = token;
-        if (req.body["userName"] !== authorizedData.name) {
-          console.log(
-            "User ",
-            authorizedData.name,
-            " dose not have access to this data!"
-          );
-          return res.status(403).json({ msg: "unauthorizedAccess" });
-        }
-        console.log("User ", authorizedData.name, " authenticated");
-        return next();
-      }
-    });
-  } else {
-    //If header is undefined return Forbidden (403)
-
+  if (header === undefined || header === null) {
+    logger.warn("header is undefined, JWT Missing");
     return res.status(403).json({ msg: "unauthorized" });
   }
+
+  if (typeof header === "string") {
+    const bearer = header.split(" ");
+    const token = bearer[1];
+    logger.debug("Token of request is " + token);
+
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, authorizedData) => {
+
+      if(err){
+        logger.info("Could not connect to the protected route");
+        logger.error("Error is " + err);
+        res.sendStatus(403);
+      }
+
+      else if(authorizedData === undefined){
+        logger.error("user data not found while verifying JWT")
+        return res.status(403).json({ msg: "data not found" }); 
+      } 
+
+      else if(req.body["userName"] === authorizedData.name){
+        req.token = token;
+        logger.info("User " + authorizedData.name + " authenticated");
+        return next();
+      }
+
+      else{
+        logger.warn("User " + authorizedData.name + " dose not have access to this data!");
+        return res.status(403).json({ msg: "unauthorizedAccess" });
+      }
+
+    });
+  }
 };
+
 
 app.use(checkToken);
 
