@@ -17,6 +17,7 @@ describe("API Test Suite", () => {
     Object.keys(response.req).map((key) => {
       console.log(key);
     });
+    console.log(response.req.path)
     jwtToken = response.body.jwt;
     expect(response.status).toBe(200);
     expect(jwtToken).toBeDefined();
