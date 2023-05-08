@@ -16,7 +16,7 @@ jobs:
       - name: npm install and test-db
         run: |
           cd server
-          echo "MONGO_URL='mongodb+srv://prath:1234@crowdcontract.ji7u87b.mongodb.net/crowdContract'" > .env
+          echo "MONGO_URI='mongodb+srv://prath:1234@crowdcontract.ji7u87b.mongodb.net/crowdContract'" > .env
           npm i
           # npm run dev &
           npm run test-db
