@@ -25,6 +25,7 @@ jobs:
           npm run dev &
           npm run test-db
           npm run test-api
+          curl http://localhost:5051/
       - name: Archive logs as artifacts
         uses: actions/upload-artifact@v3
         with:
