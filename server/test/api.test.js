@@ -15,7 +15,8 @@ describe("API Test Suite", () => {
       .post("/api/users/login")
       .send(loginData);
     jwtToken = response.body.jwt;
-    console.log("Response" + response);
+    console.log("Response" + response.status);
+    console.log("Body" + response.body);
     console.log("Test Before " + jwtToken);
     expect(response.status).toBe(200);
     expect(jwtToken).toBeDefined();
