@@ -6,7 +6,6 @@ on:
 #      - 'server/**'
     branches:
       - test
-      - main
 jobs:
   test-database:
     runs-on: ubuntu-latest
