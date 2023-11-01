@@ -3,9 +3,9 @@ name: Ansible deploy
 env:
   "ANSIBLE_CONFIG" : /home/runner/work/crowdContract/crowdContract/ansible.cfg
 on:
-#   push:
-#     branches:
-#       - main
+  push:
+    branches:
+      - main
   workflow_run:
     workflows: ["testAndCreateDockerImageBackend", "testAndCreateDockerImage"]
     types:
@@ -39,7 +39,8 @@ jobs:
         directory: /home/runner/work/crowdContract/crowdContract/playbooks
         inventory: |
           [local] 
-          ${{secrets.AWS_IP}} ansible_ssh_user=${{secrets.ANSIBLE_SSH_USERNAME}} ansible_ssh_pass=${{secrets.ANSIBLE_SSH_PASS}} ansible_sudo_pass=${{secrets.ANSIBLE_SUDO_PASS}} ansible_python_interpreter=/usr/bin/python3
+          ${{secrets.AWS_IP}} ansible_ssh_user=${{secrets.ANSIBLE_SSH_USERNAME}} ansible_ssh_pass=${{secrets.ANSIBLE_SSH_PASS}} \
+          ansible_sudo_pass=${{secrets.ANSIBLE_SUDO_PASS}} ansible_python_interpreter=/usr/bin/python3
 
           [all:vars]
           ansible_python_interpreter=/usr/bin/python3
